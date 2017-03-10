@@ -75,7 +75,7 @@
                                         </p:column>
                                         <p:column headerText="#{diffRelease.from}" style="width: 170px">
                                             <p:commandLink value="View File"
-                                                             actionListener="#{diffRelease.viewFile}">
+                                                           actionListener="#{diffRelease.viewFile}">
                                                 <f:param name="filePath" value="#{f}"/>
                                                 <f:param name="oldGit" value="#{m.oldGitRevision}"/>
                                                 <f:param name="groupId" value="#{m.groupId}"/>
@@ -85,15 +85,16 @@
                                         </p:column>
                                         <p:column headerText="#{diffRelease.to}" style="width: 170px">
                                             <p:commandLink value="View File"
-                                                             actionListener="#{diffRelease.viewFile}">
+                                                           actionListener="#{diffRelease.viewFile}">
                                                 <f:param name="filePath" value="#{f}"/>
                                                 <f:param name="newGit" value="#{m.newGitRevision}"/>
                                                 <f:param name="groupId" value="#{m.groupId}"/>
                                                 <f:param name="artifactId" value="#{m.artifactId}"/>
                                             </p:commandLink>
                                         </p:column>
-                                        <p:column  style="width: 170px">
-                                            <a href="diffSource.do?filePath=#{f}&amp;oldGit=#{m.oldGitRevision}&amp;newGit=#{m.newGitRevision}&amp;groupId=#{m.groupId}&amp;artifactId=#{m.artifactId}" target="_blank">View Diff</a>
+                                        <p:column style="width: 170px">
+                                            <a href="diffSource.do?filePath=#{f}&amp;oldGit=#{m.oldGitRevision}&amp;newGit=#{m.newGitRevision}&amp;groupId=#{m.groupId}&amp;artifactId=#{m.artifactId}"
+                                               target="_blank">View Diff</a>
                                         </p:column>
                                     </p:dataTable>
                                 </p:tab>
@@ -154,7 +155,41 @@
                     </p:dataGrid>
                 </p:tab>
                 <p:tab title="Newly Added Artifacts">
+                    ...#{diffRelease.releaseDiffResponse.newlyAdded}
+                    <p:dataGrid var="m" value="#{diffRelease.releaseDiffResponse.newlyAdded}" columns="2" layout="grid"
+                                rows="12" paginator="true" id="cars1"
+                                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                rowsPerPageTemplate="10,20,30,40,50">
 
+                        <p:panel header="#{m.artifactConfig.name}">
+
+                            <h:panelGrid columns="2" style="width:100%">
+                                <p:outputLabel value="Maven Group Id: "
+                                               style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.mavenCoordinates.groupId}" style="font-weight:bold"></p:outputLabel>
+
+                                <p:outputLabel value="Maven Artifact Id: "
+                                               style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.mavenCoordinates.artifactId}" style="font-weight:bold"></p:outputLabel>
+
+                                <p:outputLabel value="Maven Version: "
+                                               style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.mavenCoordinates.version}" style="font-weight:bold"></p:outputLabel>
+
+                                <p:outputLabel value="Git Revision: "
+                                               style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.gitRevision}" style="font-weight:bold"></p:outputLabel>
+
+                                <p:outputLabel value="Git Repo URL: "
+                                               style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.artifactConfig.repoUrl}" style="font-weight:bold"></p:outputLabel>
+
+
+
+
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:dataGrid>
                 </p:tab>
                 <p:tab title="Removed Artifacts">
 
