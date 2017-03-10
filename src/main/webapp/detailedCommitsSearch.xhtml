@@ -1,0 +1,94 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="loginLayout.xhtml">
+
+    <ui:define name="main">
+
+        <p:spacer width="10" height="30"/>
+
+        <h:form id="form">
+            <h1>Detailed commits</h1>
+            <p:separator></p:separator>
+            <h:panelGrid columns="10" cellpadding="5" cellspacing="10">
+                <h:outputText value="Committer names (any part, comma separated): "/>
+                <p:inputText value="#{diffRelease.committersCsv}" size="60"/>
+                <h:outputText value="From: "/>
+                <p:selectOneMenu id="from" value="#{diffRelease.from}"
+                                 panelStyle="width:150px"
+                                 effect="fade" var="c" style="width:150px" filter="true" filterMatchMode="contains">
+                    <f:selectItems value="#{diffRelease.releaseArtifacts}" var="c"
+                                   itemLabel="#{c.name}(#{c.version})"
+                                   itemValue="#{c.name}:#{c.version}"/>
+
+                </p:selectOneMenu>
+                <h:outputText value="To: "/>
+                <p:selectOneMenu id="to" value="#{diffRelease.to}"
+                                 panelStyle="width:180px"
+                                 effect="fade" var="t" style="width:180px" filter="true" filterMatchMode="contains">
+                    <f:selectItems value="#{diffRelease.releaseArtifacts}" var="c"
+                                   itemLabel="#{c.name}(#{c.version})"
+                                   itemValue="#{c.name}:#{c.version}"/>
+
+                </p:selectOneMenu>
+                <p:commandButton actionListener="#{diffRelease.detailedCommits}" value="Detailed commits"
+                                 update=":#{p:component('form')}"
+                                 icon="fa fa-search" title="Detailed commits"
+                                 ajax="true" style="width:200px"/>
+            </h:panelGrid>
+            <p:separator/>
+            <p:spacer height="40"/>
+            <p:tabView rendered="#{diffRelease.renderModified}">
+                <p:tab title="Commits">
+                <p:dataTable var="log" value="#{diffRelease.detailedCommits}" paginator="true"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,30,40,50,100,200">
+                    <p:column style="width:16px">
+                        <p:rowToggler/>
+                    </p:column>
+
+                    <p:column headerText="Timestamp" style="width:110px;">
+                        <h:outputText value="#{log.dateTime}"/>
+                    </p:column>
+
+                    <p:column headerText="Committer">
+                        <p:outputLabel value="#{log.author}"/>
+                    </p:column>
+                    <p:column headerText="Commit Message">
+                        <p:outputLabel value="#{log.commitMessage}" escape="false"/>
+                    </p:column>
+                    <p:column headerText="Git Revision">
+                        <p:outputLabel value="#{log.revision}"/>
+                    </p:column>
+                    <p:column  style="width: 170px">
+                        <a href="diffSource.do?gitRevision=#{log.revision}&amp;groupId=#{log.mavenCoordinates.groupId}&amp;artifactId=#{log.mavenCoordinates.artifactId}" target="_blank">View Changes</a>
+                    </p:column>
+
+                    <p:rowExpansion>
+                        <p:dataTable var="cse" value="#{log.changes}" paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30,40,50,100,200">
+                            <p:column headerText="Change Type">
+                                <p:outputLabel value="#{cse.changeType}"/>
+                            </p:column>
+                            <p:column headerText="File">
+                                <p:outputLabel value="#{cse.filePath}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                    </p:rowExpansion>
+                </p:dataTable>
+                </p:tab>
+                <p:tab title="Commit Trends">
+                    <p:panel>
+                    <p:chart type="line" model="#{diffRelease.trend}" style="height:550px;" />
+                    </p:panel>
+                </p:tab>
+            </p:tabView>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>
