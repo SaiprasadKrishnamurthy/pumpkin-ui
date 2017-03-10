@@ -115,6 +115,10 @@ public class ReleaseDiffDisplayBean {
     }
 
     public static int scale(final int valueIn, final int baseMin, final int baseMax, final int limitMin, final int limitMax) {
-        return ((limitMax - limitMin) * (valueIn - baseMin) / (baseMax - baseMin)) + limitMin;
+        int i = baseMax - baseMin;
+        if (i == 0) {
+            i = 1;
+        }
+        return ((limitMax - limitMin) * (valueIn - baseMin) / i) + limitMin;
     }
 }
