@@ -22,6 +22,7 @@ public class ReleaseDiffDisplayBean {
     private String to;
     private String groupId;
     private String artifactId;
+    private String artifactName;
     private String oldMavenVersion;
     private String newMavenVersion;
     private boolean added;
@@ -41,6 +42,7 @@ public class ReleaseDiffDisplayBean {
         this.from = from.replace(":", " (") + ")";
         this.to = to.replace(":", " (") + ")";
         artifactId = gitLogSummaryResponse.getTo().getMavenCoordinates().getArtifactId();
+        artifactName = gitLogSummaryResponse.getTo().getArtifactConfig().getName();
         groupId = gitLogSummaryResponse.getTo().getMavenCoordinates().getGroupId();
         oldMavenVersion = gitLogSummaryResponse.getFrom().getMavenCoordinates().getVersion();
         newMavenVersion = gitLogSummaryResponse.getTo().getMavenCoordinates().getVersion();
