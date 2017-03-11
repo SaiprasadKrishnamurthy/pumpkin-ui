@@ -165,15 +165,18 @@
                             <h:panelGrid columns="2" style="width:100%">
                                 <p:outputLabel value="Maven Group Id: "
                                                style="font-weight:bold"></p:outputLabel>
-                                <p:outputLabel value="#{m.mavenCoordinates.groupId}" style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.mavenCoordinates.groupId}"
+                                               style="font-weight:bold"></p:outputLabel>
 
                                 <p:outputLabel value="Maven Artifact Id: "
                                                style="font-weight:bold"></p:outputLabel>
-                                <p:outputLabel value="#{m.mavenCoordinates.artifactId}" style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.mavenCoordinates.artifactId}"
+                                               style="font-weight:bold"></p:outputLabel>
 
                                 <p:outputLabel value="Maven Version: "
                                                style="font-weight:bold"></p:outputLabel>
-                                <p:outputLabel value="#{m.mavenCoordinates.version}" style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.mavenCoordinates.version}"
+                                               style="font-weight:bold"></p:outputLabel>
 
                                 <p:outputLabel value="Git Revision: "
                                                style="font-weight:bold"></p:outputLabel>
@@ -181,9 +184,8 @@
 
                                 <p:outputLabel value="Git Repo URL: "
                                                style="font-weight:bold"></p:outputLabel>
-                                <p:outputLabel value="#{m.artifactConfig.repoUrl}" style="font-weight:bold"></p:outputLabel>
-
-
+                                <p:outputLabel value="#{m.artifactConfig.repoUrl}"
+                                               style="font-weight:bold"></p:outputLabel>
 
 
                             </h:panelGrid>
@@ -201,15 +203,18 @@
                             <h:panelGrid columns="2" style="width:100%">
                                 <p:outputLabel value="Maven Group Id: "
                                                style="font-weight:bold"></p:outputLabel>
-                                <p:outputLabel value="#{m.mavenCoordinates.groupId}" style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.mavenCoordinates.groupId}"
+                                               style="font-weight:bold"></p:outputLabel>
 
                                 <p:outputLabel value="Maven Artifact Id: "
                                                style="font-weight:bold"></p:outputLabel>
-                                <p:outputLabel value="#{m.mavenCoordinates.artifactId}" style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.mavenCoordinates.artifactId}"
+                                               style="font-weight:bold"></p:outputLabel>
 
                                 <p:outputLabel value="Maven Version: "
                                                style="font-weight:bold"></p:outputLabel>
-                                <p:outputLabel value="#{m.mavenCoordinates.version}" style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.mavenCoordinates.version}"
+                                               style="font-weight:bold"></p:outputLabel>
 
                                 <p:outputLabel value="Git Revision: "
                                                style="font-weight:bold"></p:outputLabel>
@@ -217,15 +222,18 @@
 
                                 <p:outputLabel value="Git Repo URL: "
                                                style="font-weight:bold"></p:outputLabel>
-                                <p:outputLabel value="#{m.artifactConfig.repoUrl}" style="font-weight:bold"></p:outputLabel>
-
-
+                                <p:outputLabel value="#{m.artifactConfig.repoUrl}"
+                                               style="font-weight:bold"></p:outputLabel>
 
 
                             </h:panelGrid>
                         </p:panel>
                     </p:dataGrid>
                 </p:tab>
+                <p:tab title="Change Magnitude">
+                    <p:chart type="bar" model="#{diffRelease.changeMagnitude}" style="height:400px"/>
+                </p:tab>
+
             </p:tabView>
 
 

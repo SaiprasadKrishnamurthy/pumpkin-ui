@@ -35,6 +35,7 @@ public class DiffReleasesController {
     private String committersCsv;
     private List<GitLogEntry> detailedCommits;
     private LineChartModel trend;
+    private HorizontalBarChartModel changeMagnitude;
 
 
     public DiffReleasesController() {
@@ -46,6 +47,40 @@ public class DiffReleasesController {
         // Modified
         modified = releaseDiffResponse.getDiffs().stream().map(r -> new ReleaseDiffDisplayBean(from, to, r)).collect(toList());
         renderModified = true;
+        changeMagnitude = buildChangeMagnitude();
+    }
+
+    private HorizontalBarChartModel buildChangeMagnitude() {
+        changeMagnitude = new HorizontalBarChartModel();
+
+        ChartSeries linesAdded = new ChartSeries();
+        linesAdded.setLabel("# of lines inserted");
+
+        ChartSeries linesRemoved = new ChartSeries();
+        linesRemoved.setLabel("# of lines deleted");
+
+        for (ReleaseDiffDisplayBean b : modified) {
+            linesAdded.set(b.getArtifactName(), b.getNoOfLinesInserted());
+            linesRemoved.set(b.getArtifactName(), b.getNoOfLinesDeleted());
+        }
+
+        changeMagnitude.addSeries(linesAdded);
+        changeMagnitude.addSeries(linesRemoved);
+
+        changeMagnitude.setTitle("Horizontal and Stacked");
+        changeMagnitude.setLegendPosition("e");
+        changeMagnitude.setStacked(true);
+
+        Axis xAxis = changeMagnitude.getAxis(AxisType.X);
+        xAxis.setLabel("# quantity");
+
+        Axis yAxis = changeMagnitude.getAxis(AxisType.Y);
+        yAxis.setLabel("Artifact name");
+        changeMagnitude.setAnimate(true);
+        changeMagnitude.setShowPointLabels(true);
+        changeMagnitude.setShowDatatip(true);
+
+        return changeMagnitude;
     }
 
     public void detailedCommits() throws Exception {
@@ -65,7 +100,7 @@ public class DiffReleasesController {
             ChartSeries series = seriesMapping.compute(author, (k, v) -> (v == null) ? new ChartSeries() : v);
             series.setLabel(author);
             series.set(gle.getDateTime(), gle.getChanges().size());
-            if(!trend.getSeries().stream().anyMatch(s -> s.getLabel().equals(author))) {
+            if (!trend.getSeries().stream().anyMatch(s -> s.getLabel().equals(author))) {
                 trend.addSeries(series);
             }
         }
@@ -73,8 +108,6 @@ public class DiffReleasesController {
         x.setLabel("Date time");
         trend.getAxes().put(AxisType.X, new CategoryAxis("Date"));
         trend.getAxis(AxisType.X).setTickAngle(-80);
-
-
 
 
         Axis y = trend.getAxis(AxisType.Y);

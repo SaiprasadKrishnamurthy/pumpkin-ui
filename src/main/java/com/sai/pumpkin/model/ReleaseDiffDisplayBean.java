@@ -35,6 +35,9 @@ public class ReleaseDiffDisplayBean {
     private PieChartModel fileTypesPie;
     private Set<FileToAuthorsBean> fileToAuthors = new TreeSet<>();
     private TagCloudModel committersCloud;
+    private long noOfFilesChanged;
+    private long noOfLinesInserted;
+    private long noOfLinesDeleted;
 
 
     public ReleaseDiffDisplayBean(final String from, final String to, final GitLogSummaryResponse gitLogSummaryResponse) {
@@ -54,6 +57,10 @@ public class ReleaseDiffDisplayBean {
         committers = gitLogSummaryResponse.getAuthorsToChangeSet().keySet();
         oldGitRevision = gitLogSummaryResponse.getFrom().getGitRevision();
         newGitRevision = gitLogSummaryResponse.getTo().getGitRevision();
+        noOfFilesChanged = gitLogSummaryResponse.getNoOfFilesChanged();
+        noOfLinesInserted = gitLogSummaryResponse.getNoOfLinesInserted();
+        noOfLinesDeleted = gitLogSummaryResponse.getNoOfLinesDeleted();
+
 
         Function<String, String> identity = filePath -> {
             if (filePath.contains(".")) {
