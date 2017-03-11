@@ -1,17 +1,12 @@
 package com.sai.slog.app.filter;
 
 
-import com.sai.slog.app.model.LoginBean;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Login Filter intercepts every request.
@@ -25,9 +20,19 @@ import java.io.IOException;
  */
 public class AuthFilter implements Filter {
 
+    private Map<String, String> themes = new HashMap<>();
+    private FilterConfig filterConfig;
+
+    {
+        themes.put("nature", "south-street");
+        themes.put("matte", "cruze");
+        themes.put("standard", "redmond");
+        themes.put("glassy", "glass-x");
+    }
+
     @Override
     public void init(final FilterConfig filterConfig) throws ServletException {
-
+        this.filterConfig = filterConfig;
     }
 
     @Override
@@ -36,28 +41,14 @@ public class AuthFilter implements Filter {
 
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        if (request.getParameter("theme") != null) {
+            httpServletRequest.getSession().setAttribute("theme", themes.get(request.getParameter("theme")));
+            System.out.println(" Theme: "+httpServletRequest.getSession().getAttribute("theme"));
+            ((HttpServletResponse) response).sendRedirect(((HttpServletRequest) request).getRequestURI());
 
-        // Get the loginBean from session attribute
-        LoginBean loginBean = (LoginBean) httpServletRequest.getSession().getAttribute("user");
-
-        if (!isUrlToAvoid(httpServletRequest)) {
-            if (((HttpServletRequest) request).getRequestURI().contains("logout.do")) {
-                httpServletRequest.getSession(false).invalidate();
-                loginBean = null;
-            }
-            if (loginBean == null) {
-                String contextPath = httpServletRequest.getContextPath();
-                httpServletResponse.sendRedirect(contextPath + "/public.do");
-            }
+        } else {
+            filterChain.doFilter(request, response);
         }
-        filterChain.doFilter(request, response);
-    }
-
-    private boolean isUrlToAvoid(final HttpServletRequest request) {
-        return (request.getRequestURI().contains("/public.do"))
-                || (request.getRequestURI().contains("/javax.faces.resource")
-                || (request.getRequestURI().contains(".png")));
     }
 
     @Override

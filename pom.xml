@@ -111,7 +111,7 @@
 
         <dependency>
             <groupId>org.primefaces.themes</groupId>
-            <artifactId>mint-choc</artifactId>
+            <artifactId>redmond</artifactId>
             <version>${theme.version}</version>
         </dependency>
         <dependency>
@@ -121,13 +121,13 @@
         </dependency>
         <dependency>
             <groupId>org.primefaces.themes</groupId>
-            <artifactId>dark-hive</artifactId>
+            <artifactId>glass-x</artifactId>
             <version>${theme.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.primefaces.themes</groupId>
-            <artifactId>glass-x</artifactId>
+            <artifactId>cruze</artifactId>
             <version>${theme.version}</version>
         </dependency>
 

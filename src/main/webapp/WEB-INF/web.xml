@@ -10,7 +10,7 @@
 
     <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>#{sessionScope["theme"] == null?"mint-choc":sessionScope["theme"]}</param-value>
+        <param-value>#{sessionScope["theme"] == null?"redmond":sessionScope["theme"]}</param-value>
     </context-param>
 
   	<!-- Change to "Production" when you are ready to deploy -->
@@ -77,14 +77,14 @@
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 
-	<!--<filter>
+	<filter>
 		<filter-name>AuthFilter</filter-name>
 		<filter-class>com.sai.slog.app.filter.AuthFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>AuthFilter</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>-->
+	</filter-mapping>
 
 
     <filter>
