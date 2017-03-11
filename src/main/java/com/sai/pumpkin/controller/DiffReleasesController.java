@@ -67,7 +67,7 @@ public class DiffReleasesController {
         changeMagnitude.addSeries(linesAdded);
         changeMagnitude.addSeries(linesRemoved);
 
-        changeMagnitude.setTitle("Horizontal and Stacked");
+        changeMagnitude.setTitle("Change Magnitude of every artifact");
         changeMagnitude.setLegendPosition("e");
         changeMagnitude.setStacked(true);
 
