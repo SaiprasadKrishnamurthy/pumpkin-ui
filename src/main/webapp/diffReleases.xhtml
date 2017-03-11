@@ -146,6 +146,17 @@
                                         </p:column>
                                     </p:dataTable>
                                 </p:tab>
+                                <p:tab title="Fixes to Defects">
+                                    <p:dataTable var="f" value="#{m.defectIds}"
+                                                 rows="10"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="10,20,30,40,50">
+                                        <p:column headerText="Defect ID">
+                                            <h:outputText value="#{f}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:tab>
 
                             </p:tabView>
                         </p:panel>

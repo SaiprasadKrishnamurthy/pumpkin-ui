@@ -19,4 +19,7 @@ public class GitLogSummaryResponse implements Serializable {
     private long noOfFilesChanged;
     private long noOfLinesInserted;
     private long noOfLinesDeleted;
+    private Set<String> defectIds;
+    private Set<String> featureIds;
+
 }

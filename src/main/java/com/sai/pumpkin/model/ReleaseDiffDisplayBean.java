@@ -38,6 +38,8 @@ public class ReleaseDiffDisplayBean {
     private long noOfFilesChanged;
     private long noOfLinesInserted;
     private long noOfLinesDeleted;
+    private Set<String> defectIds;
+    private Set<String> featureIds;
 
 
     public ReleaseDiffDisplayBean(final String from, final String to, final GitLogSummaryResponse gitLogSummaryResponse) {
@@ -60,6 +62,8 @@ public class ReleaseDiffDisplayBean {
         noOfFilesChanged = gitLogSummaryResponse.getNoOfFilesChanged();
         noOfLinesInserted = gitLogSummaryResponse.getNoOfLinesInserted();
         noOfLinesDeleted = gitLogSummaryResponse.getNoOfLinesDeleted();
+        System.out.println(gitLogSummaryResponse.getDefectIds());
+        defectIds = gitLogSummaryResponse.getDefectIds();
 
 
         Function<String, String> identity = filePath -> {
