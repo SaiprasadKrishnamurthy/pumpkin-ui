@@ -132,7 +132,7 @@
 
         <dependency>
             <groupId>org.primefaces.themes</groupId>
-            <artifactId>cruze</artifactId>
+            <artifactId>bluesky</artifactId>
             <version>${theme.version}</version>
         </dependency>
 
