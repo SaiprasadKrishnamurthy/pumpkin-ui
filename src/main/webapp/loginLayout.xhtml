@@ -13,7 +13,6 @@
             <title>Pumpkin | Artifacts dashboard</title>
         </f:facet>
 
-        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/default.css"/>
         <link type="text/css" rel="stylesheet"
               href="#{request.contextPath}/css/syntaxhighlighter/syntaxhighlighter.css"/>
 
@@ -29,6 +28,12 @@
             }
             .ui-autocomplete-multiple-container {
             width: 604px;
+            }
+            .jqplot-xaxis-label{
+            color: #FF0000;
+            }
+            .jqplot-yaxis-label{
+            color: #FF0000;
             }
         </style>
 
@@ -58,7 +63,7 @@
                         </p:submenu>
                         <p:submenu label="Look &amp; Feel" icon="fa fa-list">
                             <p:menuitem value="Nature" url="/?theme=nature" icon="fa fa-tree"/>
-                            <p:menuitem value="Matte" url="/?theme=matte" icon="fa fa-paint-brush"/>
+                            <p:menuitem value="Dark" url="/?theme=dark" icon="fa fa-paint-brush"/>
                             <p:menuitem value="Standard" url="/?theme=standard" icon="fa fa-paint-brush"/>
                             <p:menuitem value="Glassy" url="/?theme=glassy" icon="fa fa-paint-brush"/>
                         </p:submenu>

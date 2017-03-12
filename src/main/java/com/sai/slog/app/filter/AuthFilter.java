@@ -25,8 +25,8 @@ public class AuthFilter implements Filter {
 
     {
         themes.put("nature", "south-street");
-        themes.put("matte", "cruze");
-        themes.put("standard", "redmond");
+        themes.put("dark", "dark-hive");
+        themes.put("standard", "cupertino");
         themes.put("glassy", "glass-x");
     }
 

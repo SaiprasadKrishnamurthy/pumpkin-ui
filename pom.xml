@@ -111,7 +111,7 @@
 
         <dependency>
             <groupId>org.primefaces.themes</groupId>
-            <artifactId>redmond</artifactId>
+            <artifactId>dark-hive</artifactId>
             <version>${theme.version}</version>
         </dependency>
         <dependency>
@@ -122,6 +122,11 @@
         <dependency>
             <groupId>org.primefaces.themes</groupId>
             <artifactId>glass-x</artifactId>
+            <version>${theme.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>cupertino</artifactId>
             <version>${theme.version}</version>
         </dependency>
 

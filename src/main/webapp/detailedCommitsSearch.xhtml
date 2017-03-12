@@ -14,7 +14,7 @@
             <p:separator></p:separator>
             <h:panelGrid columns="10" cellpadding="5" cellspacing="10">
                 <h:outputText value="Committer names (any part, comma separated): "/>
-                <p:inputText value="#{diffRelease.committersCsv}" size="60"/>
+                <p:inputText value="#{diffRelease.committersCsv}" size="50"/>
                 <h:outputText value="From: "/>
                 <p:selectOneMenu id="from" value="#{diffRelease.from}"
                                  panelStyle="width:150px"
@@ -33,9 +33,9 @@
                                    itemValue="#{c.name}:#{c.version}"/>
 
                 </p:selectOneMenu>
-                <p:commandButton actionListener="#{diffRelease.detailedCommits}" value="Detailed commits"
+                <p:commandButton actionListener="#{diffRelease.detailedCommits}" value="Search"
                                  update=":#{p:component('form')}"
-                                 icon="fa fa-search" title="Detailed commits"
+                                 icon="fa fa-search" title="Search"
                                  ajax="true" style="width:200px"/>
             </h:panelGrid>
             <p:separator/>

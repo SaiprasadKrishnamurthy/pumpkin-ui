@@ -10,7 +10,7 @@
 
     <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>#{sessionScope["theme"] == null?"redmond":sessionScope["theme"]}</param-value>
+        <param-value>#{sessionScope["theme"] == null?"cupertino":sessionScope["theme"]}</param-value>
     </context-param>
 
   	<!-- Change to "Production" when you are ready to deploy -->
