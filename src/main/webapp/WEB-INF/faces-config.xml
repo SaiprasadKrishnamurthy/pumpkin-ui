@@ -11,6 +11,11 @@
         <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
     <managed-bean>
+        <managed-bean-name>diffArtifacts</managed-bean-name>
+        <managed-bean-class>com.sai.pumpkin.controller.DiffArtifactsController</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
         <managed-bean-name>diffSource</managed-bean-name>
         <managed-bean-class>com.sai.pumpkin.controller.DiffSourceController</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>
