@@ -154,7 +154,7 @@
                                         <p:column headerText="File" filterBy="#{f.file}" filterMatchMode="contains">
                                             <h:outputText value="#{f.file}"/>
                                         </p:column>
-                                        <p:column headerText="Committers">
+                                        <p:column headerText="Committers" filterBy="#{f.authors}" filterMatchMode="contains">
                                             <h:outputText value="#{f.authors}"/>
                                         </p:column>
                                     </p:dataTable>
