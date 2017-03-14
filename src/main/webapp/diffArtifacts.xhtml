@@ -18,7 +18,9 @@
                              size="70">
                     <p:ajax event="keyup" update="form" listener="#{diffArtifacts.onKey}"/>
                 </p:inputText>
-                <p:selectBooleanCheckbox value="#{diffArtifacts.includeSnapshots}" />
+                <p:selectBooleanCheckbox value="#{diffArtifacts.includeSnapshots}">
+                    <p:ajax update="form" listener="#{diffArtifacts.onKey}" />
+                </p:selectBooleanCheckbox>
                 <h:outputText value="Include snapshots"/>
 
 
