@@ -8,7 +8,10 @@ import org.primefaces.model.chart.*;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -24,6 +27,7 @@ public class DiffArtifactsController {
     private ReleaseDiffResponse releaseDiffResponse;
     private List<ReleaseDiffDisplayBean> modified;
     private boolean renderModified;
+    private boolean renderDropDowns;
     private ViewSourceRequest viewSourceRequest = new ViewSourceRequest();
     private ViewSourceResponse viewSourceResponse;
     private String one;
@@ -33,10 +37,12 @@ public class DiffArtifactsController {
     private LineChartModel trend;
     private HorizontalBarChartModel changeMagnitude;
     private ReleaseDiffResponse diffResponse;
+    private String artifactId;
+    private boolean includeSnapshots;
 
 
     public DiffArtifactsController() {
-        allArtifacts = pumpkinService.allArtifacts();
+
     }
 
     public void diff() {
@@ -45,6 +51,17 @@ public class DiffArtifactsController {
         renderModified = true;
     }
 
+    public void onKey() {
+        if (artifactId.length() > 3) {
+            allArtifacts = pumpkinService.allArtifacts(artifactId);
+            if (!includeSnapshots) {
+                allArtifacts = allArtifacts.stream().filter(m -> !m.getMavenCoordinates().getVersion().contains("SNAPSHOT")).collect(Collectors.toList());
+            }
+            renderDropDowns = true;
+        } else {
+            renderDropDowns = false;
+        }
+    }
 
     public void detailedCommits() throws Exception {
         System.out.println("Detailed commits: " + committersCsv);

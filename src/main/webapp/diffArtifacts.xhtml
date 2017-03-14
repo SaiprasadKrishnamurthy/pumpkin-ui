@@ -12,7 +12,18 @@
         <h:form id="form">
             <h1>Diff Artifacts</h1>
             <p:separator></p:separator>
-            <h:panelGrid columns="10" cellpadding="5" cellspacing="10">
+            <h:panelGrid columns="4" cellpadding="5" cellspacing="10">
+                <h:outputText value="Artifact id"/>
+                <p:inputText id="counter" value="#{diffArtifacts.artifactId}" placeholder="any part of the artifact id"
+                             size="70">
+                    <p:ajax event="keyup" update="form" listener="#{diffArtifacts.onKey}"/>
+                </p:inputText>
+                <p:selectBooleanCheckbox value="#{diffArtifacts.includeSnapshots}" />
+                <h:outputText value="Include snapshots"/>
+
+
+            </h:panelGrid>
+            <h:panelGrid columns="10" cellpadding="5" cellspacing="10" rendered="#{diffArtifacts.renderDropDowns}">
                 <h:outputText value="From"/>
                 <p:selectOneMenu id="from" value="#{diffArtifacts.from}"
                                  panelStyle="width:180px"

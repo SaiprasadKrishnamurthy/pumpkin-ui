@@ -61,9 +61,9 @@ public class PumpkinService {
         return response.get("diff").toString();
     }
 
-    public List<MavenGitVersionMapping> allArtifacts() {
-        String url = "http://localhost:9990/artifacts";
-        List response = restTemplate.getForObject(String.format(url), List.class);
+    public List<MavenGitVersionMapping> allArtifacts(final String artifactId) {
+        String url = "http://localhost:9990/artifacts?artifactId=%s";
+        List response = restTemplate.getForObject(String.format(url, artifactId.trim()), List.class);
         return (List<MavenGitVersionMapping>) response.stream().map(r -> MAPPER.convertValue(r, MavenGitVersionMapping.class)).collect(toList());
     }
 
