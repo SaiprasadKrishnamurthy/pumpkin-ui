@@ -91,7 +91,7 @@ public class DiffArtifactsController {
 
 
         Axis y = trend.getAxis(AxisType.Y);
-        y.setLabel("# of commits");
+        y.setLabel("# of files committed");
         trend.setLegendPosition("e");
         trend.setTitle("Commit trends");
         trend.setAnimate(true);
