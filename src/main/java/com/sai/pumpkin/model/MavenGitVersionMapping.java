@@ -13,4 +13,5 @@ public class MavenGitVersionMapping implements Serializable {
     private ArtifactConfig artifactConfig;
     private MavenCoordinates mavenCoordinates;
     private String gitRevision;
+    private long timestamp;
 }
