@@ -28,7 +28,7 @@
                                  effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="contains">
                     <f:selectItems value="#{diffArtifacts.allArtifacts}" var="c"
                                    itemLabel="#{c.mavenCoordinates.artifactId}(Version: #{c.mavenCoordinates.version}) (Source timestamp: #{c.displayDate})"
-                                   itemValue="#{c.mavenCoordinates.groupId}:#{c.mavenCoordinates.artifactId}:#{c.mavenCoordinates.version}:#{c.timestamp}/>
+                                   itemValue="#{c.mavenCoordinates.groupId}:#{c.mavenCoordinates.artifactId}:#{c.mavenCoordinates.version}:#{c.timestamp}"/>
 
                 </p:selectOneMenu>
                 <p:commandButton actionListener="#{diffArtifacts.diff}" value="Diff"
