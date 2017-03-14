@@ -116,16 +116,13 @@ public class ReleaseDiffDisplayBean {
             committersPie.set(entry.getKey().trim(), entry.getValue().size());
             flattenedCounts.add(entry.getValue().size());
         });
-        int min = flattenedCounts.stream().min(Integer::compare).get();
-        int max = flattenedCounts.stream().max(Integer::compare).get();
-
-        System.out.println("Min: " + min);
-        System.out.println("Max: " + max);
-
-        gitLogSummaryResponse.getAuthorsToChangeSet().entrySet().forEach(entry -> {
-            committersCloud.addTag(new DefaultTagCloudItem(entry.getKey().trim(), scale(entry.getValue().size(), min, max, 1, 5)));
-        });
-
+        if (flattenedCounts.size() > 0) {
+            int min = flattenedCounts.stream().min(Integer::compare).get();
+            int max = flattenedCounts.stream().max(Integer::compare).get();
+            gitLogSummaryResponse.getAuthorsToChangeSet().entrySet().forEach(entry -> {
+                committersCloud.addTag(new DefaultTagCloudItem(entry.getKey().trim(), scale(entry.getValue().size(), min, max, 1, 5)));
+            });
+        }
     }
 
     public static int scale(final int valueIn, final int baseMin, final int baseMax, final int limitMin, final int limitMax) {
