@@ -73,4 +73,11 @@ public class PumpkinService {
         Map response = restTemplate.getForObject(String.format(url, from, to), Map.class);
         return MAPPER.convertValue(response, ReleaseDiffResponse.class);
     }
+
+    public List<GitLogResponse> changes(final long timestamp) {
+        String url = "http://10.126.219.143:9990/changes?timestamp=%s";
+        System.out.println(String.format(url, timestamp));
+        List response = restTemplate.getForObject(String.format(url, timestamp), List.class);
+        return (List<GitLogResponse>) response.stream().map(r -> MAPPER.convertValue(r, GitLogResponse.class)).collect(toList());
+    }
 }

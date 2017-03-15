@@ -16,6 +16,11 @@
         <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
     <managed-bean>
+        <managed-bean-name>changes</managed-bean-name>
+        <managed-bean-class>com.sai.pumpkin.controller.ChangeController</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
         <managed-bean-name>diffSource</managed-bean-name>
         <managed-bean-class>com.sai.pumpkin.controller.DiffSourceController</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>

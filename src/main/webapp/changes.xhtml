@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="loginLayout.xhtml">
+
+    <ui:define name="main">
+
+        <p:spacer width="10" height="30"/>
+
+        <h:form id="form">
+            <h1>Changes since</h1>
+            <p:separator></p:separator>
+            <h:panelGrid columns="2" cellpadding="5" cellspacing="10">
+                <p:calendar id="datetime" value="#{changes.timestamp}" pattern="MM/dd/yyyy HH:mm:ss"
+                            style="width:100px"/>
+                <p:commandButton actionListener="#{changes.search}" value="Search"
+                                 update=":#{p:component('form')}"
+                                 icon="fa fa-search" title="Search"
+                                 ajax="true" style="width:100px"/>
+            </h:panelGrid>
+            <p:separator/>
+            <p:spacer height="40"/>
+            <p:dataGrid var="c" value="#{changes.responses}" columns="1" layout="grid"
+                        rows="12" paginator="true" id="cars"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="10,20,30,40,50">
+                <p:panel header="#{c.from.artifactId} #{c.from.version} ---> #{c.to.version}" collapsed="true" toggleable="true">
+                    <p:dataTable var="log" value="#{c.gitLogEntries}" paginator="true"
+                                 rows="20"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="10,20,30,40,50,100,200">
+                        <p:column style="width:16px">
+                            <p:rowToggler/>
+                        </p:column>
+
+                        <p:column headerText="Timestamp" style="width:110px;">
+                            <h:outputText value="#{log.dateTime}"/>
+                        </p:column>
+
+                        <p:column headerText="Committer">
+                            <p:outputLabel value="#{log.author}"/>
+                        </p:column>
+                        <p:column headerText="Commit Message">
+                            <p:outputLabel value="#{log.commitMessage}" escape="false"/>
+                        </p:column>
+                        <p:column headerText="Git Revision">
+                            <p:outputLabel value="#{log.revision}"/>
+                        </p:column>
+                        <p:column  style="width: 170px">
+                            <a href="diffSource.do?gitRevision=#{log.revision}&amp;groupId=#{log.mavenCoordinates.groupId}&amp;artifactId=#{log.mavenCoordinates.artifactId}" target="_blank">View Changes</a>
+                        </p:column>
+
+                        <p:rowExpansion>
+                            <p:dataTable var="cse" value="#{log.changes}" paginator="true"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="10,20,30,40,50,100,200">
+                                <p:column headerText="Change Type">
+                                    <p:outputLabel value="#{cse.changeType}"/>
+                                </p:column>
+                                <p:column headerText="File">
+                                    <p:outputLabel value="#{cse.filePath}"/>
+                                </p:column>
+
+                            </p:dataTable>
+                        </p:rowExpansion>
+                    </p:dataTable>
+                </p:panel>
+            </p:dataGrid>
+
+        </h:form>
+    </ui:define>
+</ui:composition>
