@@ -45,7 +45,7 @@
                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                 rowsPerPageTemplate="10,20,30,40,50">
 
-                        <p:panel header="#{m.artifactName}" toggleable="true" collapsed="true">
+                        <p:panel header="#{m.artifactName} (m.oldMavenVersion ---> m.newMavenVersion)" toggleable="true" collapsed="true">
                             <h:panelGrid columns="2" style="width:100%">
                                 <p:outputLabel value="Maven version in (#{m.from}: "
                                                style="font-weight:bold"></p:outputLabel>
