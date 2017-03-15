@@ -48,7 +48,7 @@
                             <p:outputLabel value="#{log.revision}"/>
                         </p:column>
                         <p:column  style="width: 170px">
-                            <a href="diffSource.do?gitRevision=#{log.revision}&amp;groupId=#{log.mavenCoordinates.groupId}&amp;artifactId=#{log.mavenCoordinates.artifactId}" target="_blank">View Changes</a>
+                            <a href="diffSource.do?gitRevision=#{log.revision}&amp;groupId=#{c.to.groupId}&amp;artifactId=#{c.to.artifactId}" target="_blank">View Changes</a>
                         </p:column>
 
                         <p:rowExpansion>
