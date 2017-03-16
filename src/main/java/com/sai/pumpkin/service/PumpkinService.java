@@ -80,4 +80,12 @@ public class PumpkinService {
         List response = restTemplate.getForObject(String.format(url, timestamp), List.class);
         return (List<GitLogResponse>) response.stream().map(r -> MAPPER.convertValue(r, GitLogResponse.class)).collect(toList());
     }
+
+    public Map<String, Integer> activitySince(final long twentyDaysAgo) {
+        String url = "http://10.126.219.143:9990/activity?sinceTimestamp=%s";
+        System.out.println(String.format(url, twentyDaysAgo));
+        Map response = restTemplate.getForObject(String.format(url, twentyDaysAgo), Map.class);
+        return response;
+
+    }
 }

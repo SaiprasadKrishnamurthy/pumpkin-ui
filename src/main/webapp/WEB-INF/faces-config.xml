@@ -25,6 +25,11 @@
         <managed-bean-class>com.sai.pumpkin.controller.DiffSourceController</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>index</managed-bean-name>
+        <managed-bean-class>com.sai.pumpkin.controller.IndexController</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
     <application>
         <action-listener>org.primefaces.application.DialogActionListener</action-listener>
         <navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>

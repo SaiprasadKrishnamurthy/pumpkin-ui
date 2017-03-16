@@ -1,0 +1,17 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="loginLayout.xhtml">
+
+    <ui:define name="main">
+
+        <p:spacer width="10" height="30"/>
+
+        <h:form id="form">
+            <h1>Last 20 days activity</h1>
+            <p:separator></p:separator>
+            <p:chart type="bar" model="#{index.activity}" style="height:500px"/>
+        </h:form>
+    </ui:define>
+</ui:composition>

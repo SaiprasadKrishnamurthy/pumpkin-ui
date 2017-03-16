@@ -42,9 +42,10 @@
             </p:layoutUnit>
 
             <p:layoutUnit position="center">
-                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
 
-                <p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="false" resizable="false" showHeader="false">
+                <p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="false" resizable="false"
+                          showHeader="false">
                     <img src="images/ajax-loader.gif"></img>
                 </p:dialog>
                 <h:form>
@@ -59,7 +60,7 @@
                             <p:menuitem value="Changes since" url="/changes.do" icon="fa fa-search"/>
                         </p:submenu>
                         <f:facet name="options">
-                            <img src="images/pumpkin.png" height="35" alt="Logo"/>
+                            <a href="index.do"><img src="images/pumpkin.png" height="35" alt="Logo"/></a>
                         </f:facet>
                     </p:menubar>
                 </h:form>

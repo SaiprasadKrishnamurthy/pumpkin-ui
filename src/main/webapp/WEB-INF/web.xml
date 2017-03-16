@@ -39,7 +39,7 @@
  
 	<!-- Welcome page -->
 	<welcome-file-list>
-		<welcome-file>/diffReleases.xhtml</welcome-file>
+		<welcome-file>/index.xhtml</welcome-file>
 	</welcome-file-list>
 
 	<listener>
