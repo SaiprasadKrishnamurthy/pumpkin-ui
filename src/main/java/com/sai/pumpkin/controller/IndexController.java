@@ -12,9 +12,6 @@ import org.primefaces.model.chart.HorizontalBarChartModel;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by saipkri on 09/03/17.
- */
 @Data
 public class IndexController {
 
