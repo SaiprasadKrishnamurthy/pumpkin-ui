@@ -56,5 +56,9 @@ public class IndexController {
 
     }
 
+    public List<ArtifactConfig> getRegistered() {
+        return this.registered;
+    }
+
 
 }
