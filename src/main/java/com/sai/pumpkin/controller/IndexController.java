@@ -1,5 +1,6 @@
 package com.sai.pumpkin.controller;
 
+import com.sai.pumpkin.model.ArtifactConfig;
 import com.sai.pumpkin.model.GitLogResponse;
 import com.sai.pumpkin.service.PumpkinService;
 import lombok.Data;
@@ -21,12 +22,14 @@ public class IndexController {
     private final PumpkinService pumpkinService = new PumpkinService();
     private HorizontalBarChartModel activity;
     private HorizontalBarChartModel comitterActivity;
+    private List<ArtifactConfig> registered;
 
     public IndexController() {
         long curr = System.currentTimeMillis();
         long twentyDaysAgo = curr - (1000 * 60 * 60 * 24 * 20);
         Map<String, Integer> activities = pumpkinService.activitySince(twentyDaysAgo);
         Map<String, Integer> committerActivities = pumpkinService.committerActivitySince(twentyDaysAgo);
+        registered = pumpkinService.registered();
 
         activity = new HorizontalBarChartModel();
         comitterActivity = new HorizontalBarChartModel();

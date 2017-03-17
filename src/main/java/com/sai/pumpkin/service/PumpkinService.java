@@ -95,4 +95,12 @@ public class PumpkinService {
         Map response = restTemplate.getForObject(String.format(url, twentyDaysAgo), Map.class);
         return response;
     }
+
+    public List<ArtifactConfig> registered() {
+        String url = "http://10.126.219.143:9990/configs";
+        List response = restTemplate.getForObject(String.format(url), List.class);
+        return (List<ArtifactConfig>) response.stream().map(r -> MAPPER.convertValue(r, ArtifactConfig.class)).collect(toList());
+
+
+    }
 }

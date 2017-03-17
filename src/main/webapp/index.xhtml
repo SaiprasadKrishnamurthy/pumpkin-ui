@@ -2,6 +2,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
                 template="loginLayout.xhtml">
 
     <ui:define name="main">
@@ -9,12 +10,36 @@
         <p:spacer width="10" height="30"/>
 
         <h:form id="form">
-            <h1>Last 20 days activity</h1>
-            <p:separator></p:separator>
-            <h:panelGrid columns="2">
-                <p:chart type="bar" model="#{index.activity}" style="height:500px"/>
-                <p:chart type="bar" model="#{index.comitterActivity}" style="height:500px"/>
-            </h:panelGrid>
+            <p:tabView id="results">
+                <p:tab title="Activities">
+                    <h1>Last 20 days activity</h1>
+                    <p:separator></p:separator>
+                    <p:chart type="bar" model="#{index.activity}" style="height:500px; width=50%"/>
+                </p:tab>
+                <p:tab title="Registered Artifacts">
+                    <p:dataTable var="c" value="#{index.registered}"
+                                 rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="10,20,30,40,50" resizableColumns="true">
+                        <f:facet name="header">
+                            List of Registered Maven Artifacts for data collection
+                        </f:facet>
+                        <p:column headerText="Name" filterBy="#{c.name}" filterMatchMode="contains">
+                            <h:outputText value="#{c.name}"/>
+                        </p:column>
+                        <p:column headerText="Repository URL" filterBy="#{c.repoUrl}" filterMatchMode="contains">
+                            <h:outputText value="#{c.repoUrl}"/>
+                        </p:column>
+                        <p:column headerText="POM Path (Relative to the repository)">
+                            <h:outputText value="#{c.pomPath}"/>
+                        </p:column>
+                        <p:column headerText="Branch" filterBy="#{c.branch}" filterMatchMode="contains">
+                            <h:outputText value="#{c.branch}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+            </p:tabView>
         </h:form>
     </ui:define>
 </ui:composition>
