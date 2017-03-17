@@ -108,7 +108,7 @@ public class PumpkinService {
         String name = from.split(":")[0];
         String version = from.split(":")[1];
         String url = "http://10.126.219.143:9990/release-meta?version=%s&name=%s";
-        Map response = restTemplate.getForObject(String.format(url, name, version), Map.class);
+        Map response = restTemplate.getForObject(String.format(url, version, name), Map.class);
         return MAPPER.convertValue(response, ReleaseMetadata.class);
     }
 }
