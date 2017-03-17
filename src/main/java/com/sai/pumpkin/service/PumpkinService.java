@@ -88,4 +88,11 @@ public class PumpkinService {
         return response;
 
     }
+
+    public Map<String, Integer> committerActivitySince(long twentyDaysAgo) {
+        String url = "http://10.126.219.143:9990/committer-activities?sinceTimestamp=%s";
+        System.out.println(String.format(url, twentyDaysAgo));
+        Map response = restTemplate.getForObject(String.format(url, twentyDaysAgo), Map.class);
+        return response;
+    }
 }

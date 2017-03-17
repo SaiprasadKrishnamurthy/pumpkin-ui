@@ -11,7 +11,10 @@
         <h:form id="form">
             <h1>Last 20 days activity</h1>
             <p:separator></p:separator>
-            <p:chart type="bar" model="#{index.activity}" style="height:500px"/>
+            <h:panelGrid columns="2">
+                <p:chart type="bar" model="#{index.activity}" style="height:500px"/>
+                <p:chart type="bar" model="#{index.comitterActivity}" style="height:500px"/>
+            </h:panelGrid>
         </h:form>
     </ui:define>
 </ui:composition>
