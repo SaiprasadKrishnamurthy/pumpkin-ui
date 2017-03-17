@@ -36,6 +36,8 @@ public class DiffReleasesController {
     private List<GitLogEntry> detailedCommits;
     private LineChartModel trend;
     private HorizontalBarChartModel changeMagnitude;
+    private ReleaseMetadata fromColl;
+    private ReleaseMetadata toColl;
 
 
     public DiffReleasesController() {
@@ -48,6 +50,8 @@ public class DiffReleasesController {
         modified = releaseDiffResponse.getDiffs().stream().map(r -> new ReleaseDiffDisplayBean(from, to, r)).collect(toList());
         renderModified = true;
         changeMagnitude = buildChangeMagnitude();
+        fromColl = pumpkinService.releaseMeta(from);
+        toColl = pumpkinService.releaseMeta(to);
     }
 
     private HorizontalBarChartModel buildChangeMagnitude() {

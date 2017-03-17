@@ -241,6 +241,46 @@
                         </p:panel>
                     </p:dataGrid>
                 </p:tab>
+                <p:tab title="All Artifacts in #{diffRelease.from}">
+                    <p:dataTable var="f" value="#{diffRelease.fromColl.artifacts}"
+                                 rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="10,20,30,40,50">
+                        <p:column headerText="Maven Group Id" filterBy="#{f.mavenCoordinates.groupId}" filterMatchMode="contains">
+                            <h:outputText value="#{f.mavenCoordinates.groupId}"/>
+                        </p:column>
+                        <p:column headerText="Maven Artifact Id" filterBy="#{f.mavenCoordinates.artifactId}" filterMatchMode="contains">
+                            <h:outputText value="#{f.mavenCoordinates.artifactId}"/>
+                        </p:column>
+                        <p:column headerText="Maven Version" filterBy="#{f.mavenCoordinates.version}" filterMatchMode="contains">
+                            <h:outputText value="#{f.mavenCoordinates.version}"/>
+                        </p:column>
+                        <p:column headerText="Data Collection Status" filterBy="#{f.status}" filterMatchMode="contains">
+                            <h:outputText value="#{f.status}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+                <p:tab title="All Artifacts in #{diffRelease.to}">
+                    <p:dataTable var="f" value="#{diffRelease.toColl.artifacts}"
+                                 rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="10,20,30,40,50">
+                        <p:column headerText="Maven Group Id" filterBy="#{f.mavenCoordinates.groupId}" filterMatchMode="contains">
+                            <h:outputText value="#{f.mavenCoordinates.groupId}"/>
+                        </p:column>
+                        <p:column headerText="Maven Artifact Id" filterBy="#{f.mavenCoordinates.artifactId}" filterMatchMode="contains">
+                            <h:outputText value="#{f.mavenCoordinates.artifactId}"/>
+                        </p:column>
+                        <p:column headerText="Maven Version" filterBy="#{f.mavenCoordinates.version}" filterMatchMode="contains">
+                            <h:outputText value="#{f.mavenCoordinates.version}"/>
+                        </p:column>
+                        <p:column headerText="Data Collection Status" filterBy="#{f.status}" filterMatchMode="contains">
+                            <h:outputText value="#{f.status}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
                 <p:tab title="Change Magnitude">
                     <p:chart type="bar" model="#{diffRelease.changeMagnitude}" style="height:400px"/>
                 </p:tab>
