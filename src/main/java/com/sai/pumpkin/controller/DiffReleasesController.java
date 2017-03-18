@@ -3,10 +3,12 @@ package com.sai.pumpkin.controller;
 import com.sai.pumpkin.model.*;
 import com.sai.pumpkin.service.PumpkinService;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.chart.*;
 
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
 import java.util.HashMap;
@@ -42,6 +44,12 @@ public class DiffReleasesController {
 
     public DiffReleasesController() {
         releaseArtifacts = pumpkinService.allReleases();
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        from = request.getParameter("from");
+        to = request.getParameter("to");
+        if (StringUtils.isNoneBlank(from, to)) {
+            diff();
+        }
     }
 
     public void diff() {
