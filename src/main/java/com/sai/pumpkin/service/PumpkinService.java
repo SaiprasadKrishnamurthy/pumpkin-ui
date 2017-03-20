@@ -3,6 +3,8 @@ package com.sai.pumpkin.service;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sai.pumpkin.model.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -110,5 +112,23 @@ public class PumpkinService {
         String url = "http://10.126.219.143:9990/release-meta?version=%s&name=%s";
         Map response = restTemplate.getForObject(String.format(url, version, name), Map.class);
         return MAPPER.convertValue(response, ReleaseMetadata.class);
+    }
+
+    public List<ReleaseExpectation> allTests() {
+        String url = "http://10.126.219.143:9990/tests";
+        List response = restTemplate.getForObject(String.format(url), List.class);
+        return (List<ReleaseExpectation>) response.stream().map(r -> MAPPER.convertValue(r, ReleaseExpectation.class)).collect(toList());
+    }
+
+    public String execTest(final String name) {
+        String url = "http://10.126.219.143:9990/testresult?testName=%s";
+        String response = restTemplate.getForObject(String.format(url, name), String.class);
+        return response;
+    }
+
+    public void saveTest(final ReleaseExpectation r) {
+        String url = "http://10.126.219.143:9990/test";
+        HttpEntity<ReleaseExpectation> entity = new HttpEntity<>(r);
+        restTemplate.exchange(url, HttpMethod.PUT, entity, Map.class);
     }
 }

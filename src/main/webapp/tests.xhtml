@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="loginLayout.xhtml">
+
+    <ui:define name="main">
+
+        <p:spacer width="10" height="30"/>
+
+        <h:form id="form">
+            <p:dataGrid var="t" value="#{test.tests}" columns="1" layout="grid"
+                        rows="10" paginator="true" id="cars2"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="10,20,30,40,50">
+
+                <p:tabView id="results">
+                    <p:tab title="Test source">
+                        <p:panel header="Test Name: #{t.name}">
+                            <pe:codeMirror mode="gherkin"
+                                           theme="rubyblue" value="#{t.featureText}"
+                                           lineNumbers="true" style="height: auto" id="ExtCodeMirror"
+                                           widgetVar="ExtCodeMirror"/>
+                            <p:inputText value="#{t.failureSlackWebhook}" size="88"/>
+                            <p:toolbar>
+                                <f:facet name="left">
+                                    <p:commandButton action="#{test.run}" value="Save &amp; Run" icon="fa fa-play" update="form">
+                                        <f:param name="name" value="#{t.name}"/>
+                                    </p:commandButton>
+                                </f:facet>
+                            </p:toolbar>
+                        </p:panel>
+                    </p:tab>
+                    <p:tab title="Test results">
+                        <p:outputLabel escape="false" value="#{test.result}" />
+                    </p:tab>
+
+                </p:tabView>
+            </p:dataGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>
