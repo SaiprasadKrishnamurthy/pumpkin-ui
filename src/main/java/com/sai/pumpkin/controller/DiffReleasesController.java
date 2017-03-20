@@ -38,7 +38,6 @@ public class DiffReleasesController {
     private String committersCsv;
     private List<GitLogEntry> detailedCommits;
     private LineChartModel trend;
-    private HorizontalBarChartModel changeMagnitude;
     private ReleaseMetadata fromColl;
     private ReleaseMetadata toColl;
 
@@ -58,7 +57,6 @@ public class DiffReleasesController {
         // Modified
         modified = releaseDiffResponse.getDiffs().stream().map(r -> new ReleaseDiffDisplayBean(from, to, r)).collect(toList());
         renderModified = true;
-        changeMagnitude = buildChangeMagnitude();
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         fromColl = pumpkinService.releaseMeta(from);
@@ -70,34 +68,7 @@ public class DiffReleasesController {
         System.out.println(" ---- "+stopWatch.getTotalTimeSeconds());
     }
 
-    private HorizontalBarChartModel buildChangeMagnitude() {
-        changeMagnitude = new HorizontalBarChartModel();
 
-        ChartSeries filesChanged = new ChartSeries();
-        filesChanged.setLabel("# of files changed");
-
-
-        for (ReleaseDiffDisplayBean b : modified) {
-            filesChanged.set(b.getArtifactName(), b.getNoOfFilesChanged());
-        }
-
-        changeMagnitude.addSeries(filesChanged);
-
-        changeMagnitude.setTitle("Change Magnitude of every artifact");
-        changeMagnitude.setLegendPosition("e");
-        changeMagnitude.setStacked(true);
-
-        Axis xAxis = changeMagnitude.getAxis(AxisType.X);
-        xAxis.setLabel("# quantity");
-
-        Axis yAxis = changeMagnitude.getAxis(AxisType.Y);
-        yAxis.setLabel("Artifact name");
-        changeMagnitude.setAnimate(true);
-        changeMagnitude.setShowPointLabels(true);
-        changeMagnitude.setShowDatatip(true);
-
-        return changeMagnitude;
-    }
 
     public void detailedCommits() throws Exception {
         detailedCommits = pumpkinService.detailedCommits(from, to, committersCsv);

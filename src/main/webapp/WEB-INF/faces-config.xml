@@ -35,6 +35,11 @@
         <managed-bean-class>com.sai.pumpkin.controller.ReleaseExpectationController</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>rs</managed-bean-name>
+        <managed-bean-class>com.sai.pumpkin.controller.ReleaseSummaryController</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
     <application>
         <action-listener>org.primefaces.application.DialogActionListener</action-listener>
         <navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>

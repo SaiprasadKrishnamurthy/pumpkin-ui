@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="loginLayout.xhtml">
+
+    <ui:define name="main">
+
+        <p:spacer width="10" height="30"/>
+
+        <h:form id="form">
+            <h1>Quick Diff Summary between Releases #{rs.from.name}(#{rs.from.version}) and
+                #{rs.to.name}(#{rs.to.version})</h1>
+            <b>
+                <p:panel id="metrics" header="Metrics" toggleable="true">
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Previous release:  "/>
+                        <h:outputText value="#{rs.from.name} (#{rs.from.version})" style="color:red"/>
+                        <h:outputText value="Latest release:  "/>
+                        <h:outputText value="#{rs.to.name} (#{rs.to.version})" style="color:green"/>
+                        <h:outputText value="# of files changed in total:  "/>
+                        <h:outputText value="#{rs.totalFilesChanged}"/>
+                        <h:outputText value="# of committers in total:  "/>
+                        <h:outputText value="#{rs.totalCommitters}"/>
+                        <h:outputText value="# of defect fixes in total:  "/>
+                        <h:outputText value="#{rs.totalDefectFixes}"/>
+                        <a href="diffReleases.do?from=#{rs.from.name}:#{rs.from.version}&amp;to=#{rs.to.name}:#{rs.to.version}">CLICK
+                            HERE FOR A DETAILED DIFF</a>
+                    </h:panelGrid>
+                </p:panel>
+                <p:spacer height="10"/>
+                <p:panel id="change" header="Change Magnitude per artifact" toggleable="true" style="width:100%">
+                    <p:chart type="bar" model="#{rs.changeMagnitude}"/>
+                </p:panel>
+                <p:spacer height="10"/>
+
+                <p:panel id="pie" header="File types modified" toggleable="true" style="width:100%">
+                    <p:chart type="pie" model="#{rs.fileTypesPie}" style="width:100%;height:380px"/>
+                </p:panel>
+                <p:spacer height="10"/>
+                <p:panel id="trending" header="Release trending" toggleable="true">
+                    <p:chart type="line" model="#{rs.model}" style="height:400px"/>
+                </p:panel>
+                <p:spacer height="10"/>
+
+            </b>
+        </h:form>
+    </ui:define>
+</ui:composition>
