@@ -104,8 +104,6 @@ public class DiffReleasesController {
     }
 
     public void detailedCommits() throws Exception {
-        System.out.println("Detailed commits: " + committersCsv);
-        System.out.println("Detailed commits: " + to);
         detailedCommits = pumpkinService.detailedCommits(from, to, committersCsv);
         buildTrends(detailedCommits);
         renderModified = true;
