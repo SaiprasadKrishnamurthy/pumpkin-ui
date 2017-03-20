@@ -45,7 +45,7 @@ public class ReleaseDiffDisplayBean {
     public ReleaseDiffDisplayBean(final String from, final String to, final GitLogSummaryResponse gitLogSummaryResponse) {
         uuid = UUID.randomUUID().toString();
         this.from = from.replace(":", " (") + ")";
-        this.to = to.replace(":", " (") + ")";System.out.println(gitLogSummaryResponse);
+        this.to = to.replace(":", " (") + ")";
         artifactId = gitLogSummaryResponse.getTo().getMavenCoordinates().getArtifactId();
         artifactName = gitLogSummaryResponse.getTo().getArtifactConfig().getName();
         groupId = gitLogSummaryResponse.getTo().getMavenCoordinates().getGroupId();
