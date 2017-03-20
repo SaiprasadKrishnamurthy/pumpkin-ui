@@ -9,6 +9,7 @@
     <ui:define name="main">
 
         <p:spacer width="10" height="30"/>
+        <h2>Run tests to verify your expectations on the latest release</h2>
 
         <h:form id="form">
             <p:dataGrid var="t" value="#{test.tests}" columns="1" layout="grid"
@@ -26,7 +27,8 @@
                             <p:inputText value="#{t.failureSlackWebhook}" size="88"/>
                             <p:toolbar>
                                 <f:facet name="left">
-                                    <p:commandButton action="#{test.run}" value="Save &amp; Run" icon="fa fa-play" update="form">
+                                    <p:commandButton action="#{test.run}" value="Save &amp; Run" icon="fa fa-play"
+                                                     update="form">
                                         <f:param name="name" value="#{t.name}"/>
                                     </p:commandButton>
                                 </f:facet>
@@ -34,7 +36,7 @@
                         </p:panel>
                     </p:tab>
                     <p:tab title="Test results">
-                        <p:outputLabel escape="false" value="#{test.result}" />
+                        <p:outputLabel escape="false" value="#{test.result}"/>
                     </p:tab>
 
                 </p:tabView>
