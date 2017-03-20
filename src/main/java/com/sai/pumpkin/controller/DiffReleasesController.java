@@ -73,19 +73,15 @@ public class DiffReleasesController {
     private HorizontalBarChartModel buildChangeMagnitude() {
         changeMagnitude = new HorizontalBarChartModel();
 
-        ChartSeries linesAdded = new ChartSeries();
-        linesAdded.setLabel("# of lines inserted");
+        ChartSeries filesChanged = new ChartSeries();
+        filesChanged.setLabel("# of files changed");
 
-        ChartSeries linesRemoved = new ChartSeries();
-        linesRemoved.setLabel("# of lines deleted");
 
         for (ReleaseDiffDisplayBean b : modified) {
-            linesAdded.set(b.getArtifactName(), b.getNoOfLinesInserted());
-            linesRemoved.set(b.getArtifactName(), b.getNoOfLinesDeleted());
+            filesChanged.set(b.getArtifactName(), b.getNoOfFilesChanged());
         }
 
-        changeMagnitude.addSeries(linesAdded);
-        changeMagnitude.addSeries(linesRemoved);
+        changeMagnitude.addSeries(filesChanged);
 
         changeMagnitude.setTitle("Change Magnitude of every artifact");
         changeMagnitude.setLegendPosition("e");
