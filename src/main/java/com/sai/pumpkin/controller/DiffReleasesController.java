@@ -6,6 +6,7 @@ import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.chart.*;
+import org.springframework.util.StopWatch;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -58,8 +59,15 @@ public class DiffReleasesController {
         modified = releaseDiffResponse.getDiffs().stream().map(r -> new ReleaseDiffDisplayBean(from, to, r)).collect(toList());
         renderModified = true;
         changeMagnitude = buildChangeMagnitude();
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
         fromColl = pumpkinService.releaseMeta(from);
+        stopWatch.stop();
+        System.out.println(" ---- "+stopWatch.getTotalTimeSeconds());
+        stopWatch.start();
         toColl = pumpkinService.releaseMeta(to);
+        stopWatch.stop();
+        System.out.println(" ---- "+stopWatch.getTotalTimeSeconds());
     }
 
     private HorizontalBarChartModel buildChangeMagnitude() {
