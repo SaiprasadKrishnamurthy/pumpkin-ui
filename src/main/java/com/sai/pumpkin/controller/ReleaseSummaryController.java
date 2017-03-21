@@ -72,7 +72,6 @@ public class ReleaseSummaryController {
 
             changeMagnitude = buildChangeMagnitude();
 
-            List<ReleaseDiffResponse> trending = new ArrayList<>();
             int start = (releaseArtifacts.size() >= 5) ? releaseArtifacts.size() - 5 : 0;
             model = new LineChartModel();
 
@@ -86,21 +85,11 @@ public class ReleaseSummaryController {
             series3.setLabel("# of defect fixes");
 
             ReleaseDiffResponse rdf = null;
-            for (int i = start; i < releaseArtifacts.size(); i++) {
-                if (i == releaseArtifacts.size() - 1) {
-                    break;
-                }
-                System.out.println("1) index: " + releaseArtifacts.get(i).getName() + ":" + releaseArtifacts.get(i).getVersion() + " -- " + releaseArtifacts.get(i + 1).getName() + ":" + releaseArtifacts.get(i + 1).getVersion());
-                rdf = pumpkinService.diffReleases(releaseArtifacts.get(i).getName() + ":" + releaseArtifacts.get(i).getVersion(), releaseArtifacts.get(i + 1).getName() + ":" + releaseArtifacts.get(i + 1).getVersion());
+            for (int i = 1; i < releaseArtifacts.size(); i++) {
+                rdf = pumpkinService.diffReleases(releaseArtifacts.get(i - 1).getName() + ":" + releaseArtifacts.get(i - 1).getVersion(), releaseArtifacts.get(i).getName() + ":" + releaseArtifacts.get(i).getVersion());
                 series1.set(releaseArtifacts.get(i).getName() + ":" + releaseArtifacts.get(i).getVersion(), rdf.getDiffs().stream().mapToLong(g -> g.getNoOfFilesChanged()).sum());
                 series2.set(releaseArtifacts.get(i).getName() + ":" + releaseArtifacts.get(i).getVersion(), rdf.getDiffs().stream().mapToLong(g -> g.getAuthorsToChangeSet().size()).sum());
                 series3.set(releaseArtifacts.get(i).getName() + ":" + releaseArtifacts.get(i).getVersion(), rdf.getDiffs().stream().mapToLong(g -> g.getDefectIds().size()).sum());
-            }
-
-            if (releaseArtifacts.size() >= 3) {
-                series1.set(releaseArtifacts.get(releaseArtifacts.size() - 1).getName() + ":" + releaseArtifacts.get(releaseArtifacts.size() - 1).getVersion(), rdf.getDiffs().stream().mapToLong(g -> g.getNoOfFilesChanged()).sum());
-                series2.set(releaseArtifacts.get(releaseArtifacts.size() - 1).getName() + ":" + releaseArtifacts.get(releaseArtifacts.size() - 1).getVersion(), rdf.getDiffs().stream().mapToLong(g -> g.getAuthorsToChangeSet().size()).sum());
-                series3.set(releaseArtifacts.get(releaseArtifacts.size() - 1).getName() + ":" + releaseArtifacts.get(releaseArtifacts.size() - 1).getVersion(), rdf.getDiffs().stream().mapToLong(g -> g.getDefectIds().size()).sum());
             }
 
             model.setTitle("Release Trending");
@@ -110,7 +99,7 @@ public class ReleaseSummaryController {
             yAxis.setLabel("count");
 
             model.getAxes().put(AxisType.X, new CategoryAxis("Release name and version"));
-            model.getAxis(AxisType.X).setTickAngle(-60);
+            model.getAxis(AxisType.X).setTickAngle(-90);
             model.setAnimate(true);
 
             model.addSeries(series1);
