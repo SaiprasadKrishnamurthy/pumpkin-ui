@@ -36,6 +36,7 @@ public class ReleaseSummaryController {
     private DashboardModel dash;
     private List<String> arr = Arrays.asList("1", "2", "3", "4");
     private PieChartModel fileTypesPie;
+    private int totalModifiedArtifacts;
 
 
     public ReleaseSummaryController() {
@@ -69,6 +70,7 @@ public class ReleaseSummaryController {
             totalFilesChanged = currentDiff.getDiffs().stream().mapToLong(g -> g.getNoOfFilesChanged()).sum();
             totalCommitters = currentDiff.getDiffs().stream().mapToLong(g -> g.getAuthorsToChangeSet().size()).sum();
             totalDefectFixes = currentDiff.getDiffs().stream().mapToLong(g -> g.getDefectIds().size()).sum();
+            totalModifiedArtifacts = currentDiff.getDiffs().size();
 
             changeMagnitude = buildChangeMagnitude();
 
