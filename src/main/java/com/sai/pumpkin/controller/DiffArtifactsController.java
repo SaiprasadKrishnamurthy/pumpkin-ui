@@ -52,7 +52,7 @@ public class DiffArtifactsController {
     }
 
     public void onKey() {
-        if (artifactId.length() > 3) {
+        if (artifactId.length() >= 3) {
             allArtifacts = pumpkinService.allArtifacts(artifactId);
             if (!includeSnapshots) {
                 allArtifacts = allArtifacts.stream().filter(m -> !m.getMavenCoordinates().getVersion().contains("SNAPSHOT")).collect(Collectors.toList());
