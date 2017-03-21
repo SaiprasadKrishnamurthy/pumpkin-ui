@@ -131,4 +131,11 @@ public class PumpkinService {
         HttpEntity<ReleaseExpectation> entity = new HttpEntity<>(r);
         restTemplate.exchange(url, HttpMethod.PUT, entity, Map.class);
     }
+
+    public String testTemplate() {
+        String url = "http://10.126.219.143:9990/testtemplate";
+        String response = restTemplate.getForObject(String.format(url), String.class);
+        return response;
+
+    }
 }

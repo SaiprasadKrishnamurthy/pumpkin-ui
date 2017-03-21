@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="loginLayout.xhtml">
+
+    <ui:define name="main">
+
+        <p:spacer width="10" height="30"/>
+        <h2>Create a new test</h2>
+
+        <h:form id="form">
+            <p:panel>
+                <p:inputText value="#{test.created.name}" size="88" placeholder="Test name (unique)"/>
+                <pe:codeMirror mode="gherkin"
+                               theme="rubyblue" value="#{test.created.featureText}"
+                               lineNumbers="true" style="height: auto" id="ExtCodeMirror"
+                               widgetVar="ExtCodeMirror"/>
+                <p:inputText value="#{test.created.failureSlackWebhook}" size="88"/>
+                <p:toolbar>
+                    <f:facet name="left">
+                        <p:commandButton action="#{test.save}" value="Save" icon="fa fa-save"
+                                         update="form">
+                        </p:commandButton>
+                    </f:facet>
+                </p:toolbar>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

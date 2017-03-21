@@ -12,14 +12,13 @@
         <h2>Run tests to verify your expectations on the latest release</h2>
 
         <h:form id="form">
-            <p:dataGrid var="t" value="#{test.tests}" columns="1" layout="grid"
-                        rows="10" paginator="true" id="cars2"
-                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                        rowsPerPageTemplate="10,20,30,40,50">
-
-                <p:tabView id="results">
-                    <p:tab title="Test source">
-                        <p:panel header="Test Name: #{t.name}">
+            <p:tabView>
+                <p:tab title="Tests">
+                    <p:dataGrid var="t" value="#{test.tests}" columns="2" layout="grid"
+                                rows="10" paginator="true" id="cars2"
+                                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                rowsPerPageTemplate="10,20,30,40,50">
+                        <p:panel header="Test Name: #{t.name}" toggleable="true">
                             <pe:codeMirror mode="gherkin"
                                            theme="rubyblue" value="#{t.featureText}"
                                            lineNumbers="true" style="height: auto" id="ExtCodeMirror"
@@ -27,20 +26,19 @@
                             <p:inputText value="#{t.failureSlackWebhook}" size="88"/>
                             <p:toolbar>
                                 <f:facet name="left">
-                                    <p:commandButton action="#{test.run}" value="Save &amp; Run" icon="fa fa-play"
+                                    <p:commandButton action="#{test.update}" value="Save" icon="fa fa-save"
                                                      update="form">
                                         <f:param name="name" value="#{t.name}"/>
                                     </p:commandButton>
                                 </f:facet>
                             </p:toolbar>
                         </p:panel>
-                    </p:tab>
-                    <p:tab title="Test results">
-                        <p:outputLabel escape="false" value="#{test.result}"/>
-                    </p:tab>
-
-                </p:tabView>
-            </p:dataGrid>
+                    </p:dataGrid>
+                </p:tab>
+                <p:tab title="Results">
+                    <h:outputText value="#{test.result}" escape="false" />
+                </p:tab>
+            </p:tabView>
         </h:form>
     </ui:define>
 </ui:composition>
