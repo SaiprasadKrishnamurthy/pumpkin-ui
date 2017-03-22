@@ -45,6 +45,10 @@
                     <p:chart type="line" model="#{rs.model}" style="height:700px"/>
                 </p:panel>
                 <p:spacer height="10"/>
+                <p:panel id="trending1" header="Commits trends in a last few days" toggleable="true">
+                    <p:chart type="line" model="#{rs.commitTrends}" style="height:700px"/>
+                </p:panel>
+                <p:spacer height="10"/>
 
             </b>
         </h:form>

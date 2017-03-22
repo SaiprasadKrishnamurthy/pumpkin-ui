@@ -138,4 +138,11 @@ public class PumpkinService {
         return response;
 
     }
+
+    public Map<String, Integer> commitTrends(long startDate) {
+        String url = "http://10.126.219.143:9990/commitsTrend?sinceTimestamp=%s";
+        System.out.println(String.format(url, startDate));
+        Map<String,Integer> response = restTemplate.getForObject(String.format(url, startDate), Map.class);
+        return response;
+    }
 }

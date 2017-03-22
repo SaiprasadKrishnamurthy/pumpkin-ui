@@ -6,10 +6,8 @@ import com.sai.pumpkin.model.ReleaseArtifact;
 import com.sai.pumpkin.model.ReleaseDiffResponse;
 import com.sai.pumpkin.service.PumpkinService;
 import lombok.Data;
-import org.primefaces.model.DashboardColumn;
+import org.apache.commons.lang3.time.DateUtils;
 import org.primefaces.model.DashboardModel;
-import org.primefaces.model.DefaultDashboardColumn;
-import org.primefaces.model.DefaultDashboardModel;
 import org.primefaces.model.chart.*;
 
 import java.util.*;
@@ -33,31 +31,39 @@ public class ReleaseSummaryController {
     private long totalDefectFixes;
     private HorizontalBarChartModel changeMagnitude;
     private LineChartModel model;
+    private LineChartModel commitTrends;
     private DashboardModel dash;
     private List<String> arr = Arrays.asList("1", "2", "3", "4");
     private PieChartModel fileTypesPie;
     private int totalModifiedArtifacts;
 
-
     public ReleaseSummaryController() {
         releaseArtifacts = pumpkinService.allReleases();
         diff();
-        dash = new DefaultDashboardModel();
-        DashboardColumn column1 = new DefaultDashboardColumn();
-        DashboardColumn column2 = new DefaultDashboardColumn();
-        DashboardColumn column3 = new DefaultDashboardColumn();
-        DashboardColumn column4 = new DefaultDashboardColumn();
+        commitTrends();
 
-        column1.addWidget("metrics");
-        column1.addWidget("change");
 
-        column2.addWidget("trending");
-        column2.addWidget("filetypes");
+    }
 
-        dash.addColumn(column1);
-        dash.addColumn(column2);
-        dash.addColumn(column3);
-        dash.addColumn(column4);
+    private void commitTrends() {
+        long twentyDaysAgo = System.currentTimeMillis() - (1000 * 60 * 60 * 24 * 20);
+        long rounded = DateUtils.round(new Date(twentyDaysAgo), Calendar.DAY_OF_MONTH).getTime();
+        Map<String, Integer> trends = pumpkinService.commitTrends(rounded);
+        commitTrends = new LineChartModel();
+        LineChartSeries series1 = new LineChartSeries();
+        series1.setLabel("# of commits into the main branch");
+        trends.entrySet().stream().forEach(kv -> series1.set(kv.getKey(), kv.getValue()));
+        commitTrends.setTitle("Commit trends into the main branch");
+        commitTrends.setLegendPosition("e");
+        Axis yAxis = commitTrends.getAxis(AxisType.Y);
+
+        yAxis.setLabel("# of commits");
+
+        commitTrends.getAxes().put(AxisType.X, new CategoryAxis("Day"));
+        commitTrends.getAxis(AxisType.X).setTickAngle(-90);
+        commitTrends.setAnimate(true);
+        commitTrends.addSeries(series1);
+
     }
 
     public void diff() {
