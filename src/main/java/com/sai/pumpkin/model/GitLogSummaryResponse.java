@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,5 +22,6 @@ public class GitLogSummaryResponse implements Serializable {
     private long noOfLinesDeleted;
     private Set<String> defectIds;
     private Set<String> featureIds;
+    private List<PullRequest> pullRequests;
 
 }
