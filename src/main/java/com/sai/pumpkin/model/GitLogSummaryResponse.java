@@ -23,5 +23,4 @@ public class GitLogSummaryResponse implements Serializable {
     private Set<String> defectIds;
     private Set<String> featureIds;
     private List<PullRequest> pullRequests;
-
 }

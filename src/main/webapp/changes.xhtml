@@ -2,6 +2,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
                 template="loginLayout.xhtml">
 
     <ui:define name="main">
@@ -11,13 +12,42 @@
         <h:form id="form">
             <h1>Changes since</h1>
             <p:separator></p:separator>
-            <h:panelGrid columns="2" cellpadding="5" cellspacing="10">
-                <p:calendar id="datetime" value="#{changes.timestamp}" pattern="MM/dd/yyyy HH:mm:ss"
-                            style="width:100px"/>
-                <p:commandButton actionListener="#{changes.search}" value="Search"
-                                 update=":#{p:component('form')}"
-                                 icon="fa fa-search" title="Search"
-                                 ajax="true" style="width:100px"/>
+            <h:panelGrid columns="3" cellpadding="5" cellspacing="10" style="width: 90%">
+                <p:panel header="Absolute values" collapsed="#{changes.relativeMode}" toggleable="true">
+                    <h:panelGrid columns="2" cellpadding="5" cellspacing="10">
+                        <p:outputLabel value="From: "/>
+                        <p:calendar id="datetime1" value="#{changes.from}" pattern="MM/dd/yyyy HH:mm:ss"
+                                    style="width:100px"/>
+                        <p:outputLabel value="To: "/>
+                        <p:calendar id="datetime2" value="#{changes.to}" pattern="MM/dd/yyyy HH:mm:ss"
+                                    style="width:100px"/>
+                        <p:commandButton actionListener="#{changes.searchAbsolute}" value="Search"
+                                         update=":#{p:component('form')}"
+                                         icon="fa fa-search" title="Search using above values"
+                                         ajax="true" style="width:100px"/>
+                    </h:panelGrid>
+                </p:panel>
+                <p:outputLabel value="OR" style="font-weight: bold"/>
+                <p:panel header="Relative values" collapsed="#{changes.absoluteMode}" toggleable="true">
+                    <h:panelGrid columns="2" cellpadding="5" cellspacing="10">
+                        <p:inputText value="#{changes.relative}"/>
+                        <p:spacer/>
+                        <p:selectOneMenu id="from" value="#{changes.unit}"
+                                         panelStyle="width:180px"
+                                         effect="fade" style="width:160px">
+                            <f:selectItems value="#{changes.units}" var="c"
+                                           itemLabel="#{c}"
+                                           itemValue="#{c}"/>
+
+                        </p:selectOneMenu>
+                        <p:outputLabel value="  ago"/>
+                        <p:commandButton actionListener="#{changes.searchRelative}" value="Search"
+                                         update=":#{p:component('form')}"
+                                         icon="fa fa-search" title="Search using above values"
+                                         ajax="true" style="width:100px"/>
+                    </h:panelGrid>
+                </p:panel>
+
             </h:panelGrid>
             <p:separator/>
             <p:spacer height="40"/>
@@ -25,46 +55,78 @@
                         rows="12" paginator="true" id="cars"
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                         rowsPerPageTemplate="10,20,30,40,50">
-                <p:panel header="#{c.from.artifactId} #{c.from.version} ---> #{c.to.version}" collapsed="true" toggleable="true">
-                    <p:dataTable var="log" value="#{c.gitLogEntries}" paginator="true"
-                                 rows="20"
-                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="10,20,30,40,50,100,200">
-                        <p:column style="width:16px">
-                            <p:rowToggler/>
-                        </p:column>
-
-                        <p:column headerText="Timestamp" style="width:110px;">
-                            <h:outputText value="#{log.dateTime}"/>
-                        </p:column>
-
-                        <p:column headerText="Committer">
-                            <p:outputLabel value="#{log.author}"/>
-                        </p:column>
-                        <p:column headerText="Commit Message">
-                            <p:outputLabel value="#{log.commitMessage}" escape="false"/>
-                        </p:column>
-                        <p:column headerText="Git Revision">
-                            <p:outputLabel value="#{log.revision}"/>
-                        </p:column>
-                        <p:column  style="width: 170px">
-                            <a href="diffSource.do?gitRevision=#{log.revision}&amp;groupId=#{c.to.groupId}&amp;artifactId=#{c.to.artifactId}" target="_blank">View Changes</a>
-                        </p:column>
-
-                        <p:rowExpansion>
-                            <p:dataTable var="cse" value="#{log.changes}" paginator="true"
+                <p:panel header="#{c.from.artifactId} #{c.from.version} ---> #{c.to.version}" collapsed="true"
+                         toggleable="true">
+                    <p:tabView>
+                        <p:tab title="Commits">
+                            <p:dataTable var="log" value="#{c.gitLogEntries}" paginator="true"
+                                         rows="20"
                                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                          rowsPerPageTemplate="10,20,30,40,50,100,200">
-                                <p:column headerText="Change Type">
-                                    <p:outputLabel value="#{cse.changeType}"/>
+                                <p:column style="width:16px">
+                                    <p:rowToggler/>
                                 </p:column>
-                                <p:column headerText="File">
-                                    <p:outputLabel value="#{cse.filePath}"/>
+
+                                <p:column headerText="Timestamp" style="width:110px;">
+                                    <h:outputText value="#{log.dateTime}"/>
+                                </p:column>
+
+                                <p:column headerText="Committer" filterBy="#{log.author}" filterMatchMode="contains">
+                                    <p:outputLabel value="#{log.author}"/>
+                                </p:column>
+                                <p:column headerText="Commit Message" filterBy="#{log.commitMessage}"
+                                          filterMatchMode="contains">
+                                    <p:outputLabel value="#{log.commitMessage}" escape="false"/>
+                                </p:column>
+                                <p:column headerText="Git Revision">
+                                    <p:outputLabel value="#{log.revision}"/>
+                                </p:column>
+                                <p:column style="width: 170px">
+                                    <a href="diffSource.do?gitRevision=#{log.revision}&amp;groupId=#{c.to.groupId}&amp;artifactId=#{c.to.artifactId}"
+                                       target="_blank">View Changes</a>
+                                </p:column>
+
+                                <p:rowExpansion>
+                                    <p:dataTable var="cse" value="#{log.changes}" paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="10,20,30,40,50,100,200">
+                                        <p:column headerText="Change Type">
+                                            <p:outputLabel value="#{cse.changeType}"/>
+                                        </p:column>
+                                        <p:column headerText="File">
+                                            <p:outputLabel value="#{cse.filePath}"/>
+                                        </p:column>
+
+                                    </p:dataTable>
+                                </p:rowExpansion>
+                            </p:dataTable>
+                        </p:tab>
+                        <p:tab title="Pull Requests">
+                            <p:dataTable var="cse" value="#{c.pullRequests}" paginator="true"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="10,20,30,40,50,100,200">
+                                <p:column headerText="Pull Req Id">
+                                    <p:outputLabel value="#{cse.number}"/>
+                                </p:column>
+                                <p:column headerText="Pull Req Title">
+                                    <p:outputLabel value="#{cse.title}"/>
+                                </p:column>
+                                <p:column headerText="Pull Req Merged Date">
+                                    <p:outputLabel value="#{cse.mergedDate}"/>
+                                </p:column>
+                                <p:column headerText="Author">
+                                    <p:outputLabel value="#{cse.author}"/>
+                                </p:column>
+                                <p:column headerText="Approvers">
+                                    <p:outputLabel value="#{cse.approverNames}"/>
+                                </p:column>
+                                <p:column headerText="URL">
+                                    <a href="#{cse.url}">pull request link</a>
                                 </p:column>
 
                             </p:dataTable>
-                        </p:rowExpansion>
-                    </p:dataTable>
+                        </p:tab>
+                    </p:tabView>
                 </p:panel>
             </p:dataGrid>
 

@@ -7,8 +7,10 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static java.util.stream.Collectors.toList;
 
@@ -76,10 +78,17 @@ public class PumpkinService {
         return MAPPER.convertValue(response, ReleaseDiffResponse.class);
     }
 
-    public List<GitLogResponse> changes(final long timestamp) {
-        String url = "http://10.126.219.143:9990/changes?timestamp=%s";
-        System.out.println(String.format(url, timestamp));
-        List response = restTemplate.getForObject(String.format(url, timestamp), List.class);
+    public List<GitLogResponse> changeWithinRange(final long from, final long until) {
+        String url = "http://10.126.219.143:9990/changes?fromTimestamp=%s&untilTimestamp=%s";
+        System.out.println(String.format(url, from, until));
+        List response = restTemplate.getForObject(String.format(url, from, until), List.class);
+        return (List<GitLogResponse>) response.stream().map(r -> MAPPER.convertValue(r, GitLogResponse.class)).collect(toList());
+    }
+
+    public List<GitLogResponse> changeRelative(final long scale, final TimeUnit unit) {
+        String url = "http://10.126.219.143:9990/changes?relativeTime=%s&relativeTimeUnit=%s";
+        System.out.println(String.format(url, scale, unit.toString()));
+        List response = restTemplate.getForObject(String.format(url, scale, unit.toString()), List.class);
         return (List<GitLogResponse>) response.stream().map(r -> MAPPER.convertValue(r, GitLogResponse.class)).collect(toList());
     }
 
@@ -142,7 +151,18 @@ public class PumpkinService {
     public Map<String, Integer> commitTrends(long startDate) {
         String url = "http://10.126.219.143:9990/commitsTrend?sinceTimestamp=%s";
         System.out.println(String.format(url, startDate));
-        Map<String,Integer> response = restTemplate.getForObject(String.format(url, startDate), Map.class);
+        Map<String, Integer> response = restTemplate.getForObject(String.format(url, startDate), Map.class);
         return response;
+    }
+
+    public List<CollectionJob> collectedJobs() {
+        String url = "http://10.126.219.143:9990/collection-job-stats";
+        List response = restTemplate.getForObject(url, List.class);
+        return (List<CollectionJob>) response.stream().map(r -> MAPPER.convertValue(r, CollectionJob.class)).collect(toList());
+    }
+
+    public void collectAll() {
+        String url = "http://10.126.219.143:9990/collectall";
+        restTemplate.exchange(url, HttpMethod.PUT, new HttpEntity<>(new HashMap<>()), Map.class);
     }
 }

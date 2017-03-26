@@ -3,6 +3,7 @@ package com.sai.pumpkin.model;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,4 +16,5 @@ public class GitLogResponse implements Serializable {
     private MavenCoordinates to;
     private List<GitLogEntry> gitLogEntries;
     private List<String> gitLogUUIDs;
+    private List<PullRequest> pullRequests = new ArrayList<>();
 }

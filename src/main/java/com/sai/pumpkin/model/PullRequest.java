@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,4 +21,9 @@ public class PullRequest {
     private String mergedInto;
     private String author;
     private List<String> approverNames;
+    private String url;
+
+    public String getMergedDate() {
+        return new Date(closedDate).toString();
+    }
 }
