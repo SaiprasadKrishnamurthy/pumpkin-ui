@@ -146,7 +146,7 @@ public class ReleaseSummaryController {
         ChartSeries filesChanged = new ChartSeries();
         filesChanged.setLabel("# of files changed");
 
-        Collections.sort(currentDiff.getDiffs(), (a, b) -> Long.valueOf(b.getNoOfFilesChanged()).compareTo(a.getNoOfFilesChanged()));
+        Collections.sort(currentDiff.getDiffs(), (a, b) -> Long.valueOf(a.getNoOfFilesChanged()).compareTo(b.getNoOfFilesChanged()));
 
         for (GitLogSummaryResponse b : currentDiff.getDiffs()) {
             filesChanged.set(b.getTo().getMavenCoordinates().getArtifactId() + " (" + b.getTo().getMavenCoordinates().getVersion() + ") ", b.getNoOfFilesChanged());
