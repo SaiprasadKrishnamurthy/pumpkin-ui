@@ -12,6 +12,7 @@ import org.primefaces.model.chart.*;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 
@@ -39,10 +40,10 @@ public class ReleaseSummaryController {
 
     public ReleaseSummaryController() {
         releaseArtifacts = pumpkinService.allReleases();
+        // filter out snapshots. we don't want them here.
+        releaseArtifacts = releaseArtifacts.stream().filter(ra -> ra.getSnapshot() == null || !ra.getSnapshot()).collect(Collectors.toList());
         diff();
         commitTrends();
-
-
     }
 
     private void commitTrends() {

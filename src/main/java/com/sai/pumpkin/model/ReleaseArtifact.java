@@ -13,5 +13,6 @@ public class ReleaseArtifact implements Serializable {
     private String id;
     private String name;
     private String version;
+    private Boolean snapshot;
     private List<MavenCoordinates> mavenArtifacts;
 }
