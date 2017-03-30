@@ -14,14 +14,24 @@
                 <p:tab title="Jobs">
                     <h1>Collection job stats</h1>
                     <p:separator></p:separator>
+                    <p:toolbar>
+                        <f:facet name="left">
+                            <p:commandButton value="Trigger collection job" icon="fa fa-play-circle"
+                                             actionListener="#{cj.collect}"></p:commandButton>
+            <span class="ui-separator">
+                <span class="ui-icon ui-icon-grip-dotted-vertical"/>
+            </span>
+
+                            <p:commandButton value="Clear all cache" icon="fa fa-trash"
+                                             actionListener="#{cj.clearCache}"></p:commandButton>
+                        </f:facet>
+                    </p:toolbar>
+
                     <p:dataTable var="c" value="#{cj.responses}"
                                  rows="50"
                                  paginator="true"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="10,20,30,40,50,80,100,150,200" resizableColumns="true">
-                       <f:facet name="header">
-                           <p:commandButton value="Collect now" icon="fa fa-play-circle" actionListener="#{cj.collect}"></p:commandButton>
-                       </f:facet>
                         <p:column headerText="Artifact name" filterBy="#{c.name}" filterMatchMode="contains">
                             <h:outputText value="#{c.configName}"/>
                         </p:column>

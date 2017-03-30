@@ -165,4 +165,10 @@ public class PumpkinService {
         String url = "http://10.126.219.143:9990/collectall";
         restTemplate.exchange(url, HttpMethod.PUT, new HttpEntity<>(new HashMap<>()), Map.class);
     }
+
+    public void clearCache() {
+        String url = "http://10.126.219.143:9990/cache-refresh";
+        System.out.println(String.format(url));
+        restTemplate.getForObject(String.format(url), Map.class);
+    }
 }

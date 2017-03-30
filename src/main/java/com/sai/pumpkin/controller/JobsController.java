@@ -52,4 +52,9 @@ public class JobsController {
         pumpkinService.collectAll();
         RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage("Job submitted for collection."));
     }
+
+    public void clearCache() {
+        pumpkinService.clearCache();
+        RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage("All cache cleared!"));
+    }
 }
