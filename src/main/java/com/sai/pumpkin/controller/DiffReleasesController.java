@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -43,7 +44,7 @@ public class DiffReleasesController {
 
 
     public DiffReleasesController() {
-        releaseArtifacts = pumpkinService.allReleases();
+        releaseArtifacts = pumpkinService.allReleases().stream().filter(r -> !r.getName().contains("SNAPSHOT")).collect(Collectors.toList());
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         from = request.getParameter("from");
         to = request.getParameter("to");
@@ -61,13 +62,12 @@ public class DiffReleasesController {
         stopWatch.start();
         fromColl = pumpkinService.releaseMeta(from);
         stopWatch.stop();
-        System.out.println(" ---- "+stopWatch.getTotalTimeSeconds());
+        System.out.println(" ---- " + stopWatch.getTotalTimeSeconds());
         stopWatch.start();
         toColl = pumpkinService.releaseMeta(to);
         stopWatch.stop();
-        System.out.println(" ---- "+stopWatch.getTotalTimeSeconds());
+        System.out.println(" ---- " + stopWatch.getTotalTimeSeconds());
     }
-
 
 
     public void detailedCommits() throws Exception {
