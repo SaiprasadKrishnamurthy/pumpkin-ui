@@ -15,13 +15,13 @@
                 <p:panel id="metrics" header="Metrics" toggleable="true">
                     <h:panelGrid columns="2">
                         <h:outputText value="Previous release: "
-                                      style="color:red;font-size: 2em"/>
+                                      style="color:red;font-size: 1.3em"/>
                         <h:outputText value="#{rs.from.name} (#{rs.from.version})"
-                                      style="color:red;font-size: 2em"/>
+                                      style="color:red;font-size: 1.3em"/>
                         <h:outputText value="Latest release: "
-                                      style="color:green;font-size: 2em"/>
+                                      style="color:green;font-size: 1.3em"/>
                         <h:outputText value="#{rs.to.name} (#{rs.to.version})"
-                                      style="color:green;font-size: 2em"/>
+                                      style="color:green;font-size: 1.3em"/>
                     </h:panelGrid>
                     <p:spacer height="10"></p:spacer>
                     <h:panelGrid columns="4">
@@ -32,7 +32,7 @@
                                         step="50" value="#{rs.totalFilesChanged}"
                                         disabled="true" labelTemplate="{value}"/>
                                 <h:outputText value="Files modified"
-                                              style="color:green;font-size: 1.5em"/>
+                                              style="color:green;font-size: 1.3em"/>
                             </h:panelGrid>
                         </p:panel>
                         <p:panel header="Total modified artifacts">
@@ -43,7 +43,7 @@
                                         disabled="true" labelTemplate="{value}" foregroundColor="blue"
                                         backgroundgroundColor="blue"/>
                                 <h:outputText value="Artifacts modified"
-                                              style="color:blue;font-size: 1.5em"/>
+                                              style="color:blue;font-size: 1.3em"/>
                             </h:panelGrid>
                         </p:panel>
                         <p:panel header="Total distinct committers">
@@ -53,7 +53,7 @@
                                         disabled="true" labelTemplate="{value}" foregroundColor="brown"
                                         backgroundgroundColor="brown"/>
                                 <h:outputText value="Commiters"
-                                              style="color:brown;font-size: 1.5em"/>
+                                              style="color:brown;font-size: 1.3em"/>
                             </h:panelGrid>
                         </p:panel>
                         <p:panel header="Total number of defects fixed">
@@ -63,7 +63,7 @@
                                         disabled="true" labelTemplate="{value}" foregroundColor="red"
                                         backgroundgroundColor="red"/>
                                 <h:outputText value="Defect fixes"
-                                              style="color:red;font-size: 1.5em"/>
+                                              style="color:red;font-size: 1.3em"/>
                             </h:panelGrid>
                         </p:panel>
                     </h:panelGrid>
