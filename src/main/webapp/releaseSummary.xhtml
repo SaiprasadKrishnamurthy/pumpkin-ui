@@ -10,26 +10,65 @@
         <p:spacer width="10" height="30"/>
 
         <h:form id="form">
-            <h1>Quick Diff Summary between Releases #{rs.from.name}(#{rs.from.version}) and
-                #{rs.to.name}(#{rs.to.version})</h1>
+            <h1>Quick Release Diff Summary</h1>
             <b>
                 <p:panel id="metrics" header="Metrics" toggleable="true">
                     <h:panelGrid columns="2">
-                        <h:outputText value="Previous release:  "/>
-                        <h:outputText value="#{rs.from.name} (#{rs.from.version})" style="color:red"/>
-                        <h:outputText value="Latest release:  "/>
-                        <h:outputText value="#{rs.to.name} (#{rs.to.version})" style="color:green"/>
-                        <h:outputText value="# of files changed in total:  "/>
-                        <h:outputText value="#{rs.totalFilesChanged}"/>
-                        <h:outputText value="# of artifacts changed in total:  "/>
-                        <h:outputText value="#{rs.totalModifiedArtifacts}"/>
-                        <h:outputText value="# of committers in total:  "/>
-                        <h:outputText value="#{rs.totalCommitters}"/>
-                        <h:outputText value="# of defect fixes in total:  "/>
-                        <h:outputText value="#{rs.totalDefectFixes}"/>
-                        <a href="diffReleases.do?from=#{rs.from.name}:#{rs.from.version}&amp;to=#{rs.to.name}:#{rs.to.version}">CLICK
-                            HERE FOR A DETAILED DIFF</a>
+                        <h:outputText value="Previous release: "
+                                      style="color:red;font-size: 2em"/>
+                        <h:outputText value="#{rs.from.name} (#{rs.from.version})"
+                                      style="color:red;font-size: 2em"/>
+                        <h:outputText value="Latest release: "
+                                      style="color:green;font-size: 2em"/>
+                        <h:outputText value="#{rs.to.name} (#{rs.to.version})"
+                                      style="color:green;font-size: 2em"/>
                     </h:panelGrid>
+                    <p:spacer height="10"></p:spacer>
+                    <h:panelGrid columns="4">
+                        <p:panel header="Total files changed">
+                            <h:panelGrid columns="2">
+                                <p:knob max="#{rs.totalFilesChanged}" foregroundColor="green"
+                                        backgroundgroundColor="green"
+                                        step="50" value="#{rs.totalFilesChanged}"
+                                        disabled="true" labelTemplate="{value}"/>
+                                <h:outputText value="Files modified"
+                                              style="color:green;font-size: 1.5em"/>
+                            </h:panelGrid>
+                        </p:panel>
+                        <p:panel header="Total modified artifacts">
+                            <h:panelGrid columns="2">
+
+                                <p:knob max="#{rs.totalModifiedArtifacts}" step="50"
+                                        value="#{rs.totalModifiedArtifacts}"
+                                        disabled="true" labelTemplate="{value}" foregroundColor="blue"
+                                        backgroundgroundColor="blue"/>
+                                <h:outputText value="Artifacts modified"
+                                              style="color:blue;font-size: 1.5em"/>
+                            </h:panelGrid>
+                        </p:panel>
+                        <p:panel header="Total distinct committers">
+                            <h:panelGrid columns="2">
+
+                                <p:knob max="#{rs.totalCommitters}" step="50" value="#{rs.totalCommitters}"
+                                        disabled="true" labelTemplate="{value}" foregroundColor="brown"
+                                        backgroundgroundColor="brown"/>
+                                <h:outputText value="Commiters"
+                                              style="color:brown;font-size: 1.5em"/>
+                            </h:panelGrid>
+                        </p:panel>
+                        <p:panel header="Total number of defects fixed">
+                            <h:panelGrid columns="2">
+
+                                <p:knob max="#{rs.totalDefectFixes}" step="50" value="#{rs.totalDefectFixes}"
+                                        disabled="true" labelTemplate="{value}" foregroundColor="red"
+                                        backgroundgroundColor="red"/>
+                                <h:outputText value="Defect fixes"
+                                              style="color:red;font-size: 1.5em"/>
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:panelGrid>
+                    <a href="diffReleases.do?from=#{rs.from.name}:#{rs.from.version}&amp;to=#{rs.to.name}:#{rs.to.version}">CLICK
+                        HERE FOR A DETAILED DIFF</a>
                 </p:panel>
                 <p:spacer height="10"/>
                 <p:panel id="change" header="Change Magnitude per artifact" toggleable="true" style="width:100%">

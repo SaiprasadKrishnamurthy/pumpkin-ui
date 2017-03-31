@@ -171,4 +171,10 @@ public class PumpkinService {
         System.out.println(String.format(url));
         restTemplate.getForObject(String.format(url), Map.class);
     }
+
+    public ReleaseDiffResponse diffSnapshots(String from, String to, int timeWindowInMinutes) {
+        String url = "http://10.126.219.143:9990/snapshot-diff?releaseCoordinates1=%s&releaseCoordinates2=%s&snapshotGoBackUpToMinutes=%s";
+        Map response = restTemplate.getForObject(String.format(url, from, to, timeWindowInMinutes), Map.class);
+        return MAPPER.convertValue(response, ReleaseDiffResponse.class);
+    }
 }

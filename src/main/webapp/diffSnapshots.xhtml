@@ -1,0 +1,285 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="loginLayout.xhtml">
+
+    <ui:define name="main">
+
+        <p:spacer width="10" height="30"/>
+
+        <h:form id="form">
+            <h1>Diff SNAPSHOTS</h1>
+            <p:separator></p:separator>
+            <p:panel header="SNAPSHOT comparison window" toggleable="true" collapsed="true">
+                <h:panelGrid columns="5" cellpadding="5" cellspacing="5">
+                    <h:panelGrid columns="3" style="margin-bottom: 10px">
+                        <h:outputText id="output"
+                                      value="Time window start:  #{diffRelease.timeWindowStartinMinutes} minutes from now"/>
+                        <h:inputHidden id="txt2" value="#{diffRelease.timeWindowStartinMinutes}"/>
+                        <p:slider for="txt2" display="output" style="width: 200px"
+                                  displayTemplate="Time window start:  #{diffRelease.timeWindowStartinMinutes} minutes from now"
+                                  maxValue="400"/>
+                    </h:panelGrid>
+                </h:panelGrid>
+            </p:panel>
+
+            <p:separator/>
+            <p:spacer height="40"/>
+            <p:tabView id="results" rendered="#{diffRelease.renderModified}">
+                <p:tab title="Modified Artifacts">
+                    <p:dataGrid var="m" value="#{diffRelease.modified}" columns="1" layout="grid"
+                                rows="12" paginator="true" id="cars"
+                                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                rowsPerPageTemplate="10,20,30,40,50">
+
+                        <p:panel header="#{m.artifactName} (#{m.oldMavenVersion} ---> #{m.newMavenVersion})"
+                                 toggleable="true" collapsed="true">
+                            <h:panelGrid columns="2" style="width:100%">
+                                <p:outputLabel value="Maven version in (#{m.from}: "
+                                               style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.oldMavenVersion}" style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="Maven version in (#{m.to}: "
+                                               style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.newMavenVersion}" style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="Git revision in (#{m.from}: "
+                                               style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.oldGitRevision}" style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="Git revision in (#{m.to}: "
+                                               style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.newGitRevision}" style="font-weight:bold"></p:outputLabel>
+                            </h:panelGrid>
+
+                            <p:separator/>
+                            <p:spacer height="10"></p:spacer>
+                            <p:tabView activeIndex="#{m.tabIndex}">
+                                <p:tab title="Files Modified">
+                                    <p:dataTable var="f" value="#{m.filesModified}"
+                                                 rows="10"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="10,20,30,40,50" resizableColumns="true">
+                                        <p:column headerText="File Path" filterBy="#{f}" filterMatchMode="contains">
+                                            <h:outputText value="#{f}"/>
+                                        </p:column>
+                                        <p:column headerText="#{diffRelease.from}" style="width: 170px">
+                                            <p:commandLink value="View File"
+                                                           actionListener="#{diffRelease.viewFile}">
+                                                <f:param name="filePath" value="#{f}"/>
+                                                <f:param name="oldGit" value="#{m.oldGitRevision}"/>
+                                                <f:param name="groupId" value="#{m.groupId}"/>
+                                                <f:param name="artifactId" value="#{m.artifactId}"/>
+                                            </p:commandLink>
+
+                                        </p:column>
+                                        <p:column headerText="#{diffRelease.to}" style="width: 170px">
+                                            <p:commandLink value="View File"
+                                                           actionListener="#{diffRelease.viewFile}">
+                                                <f:param name="filePath" value="#{f}"/>
+                                                <f:param name="newGit" value="#{m.newGitRevision}"/>
+                                                <f:param name="groupId" value="#{m.groupId}"/>
+                                                <f:param name="artifactId" value="#{m.artifactId}"/>
+                                            </p:commandLink>
+                                        </p:column>
+                                        <p:column style="width: 170px">
+                                            <a href="diffSource.do?filePath=#{f}&amp;oldGit=#{m.oldGitRevision}&amp;newGit=#{m.newGitRevision}&amp;groupId=#{m.groupId}&amp;artifactId=#{m.artifactId}"
+                                               target="_blank">View Diff</a>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:tab>
+                                <p:tab title="Committers">
+                                    <h:panelGrid columns="2">
+                                        <p:dataTable var="f" value="#{m.committers}"
+                                                     rows="10"
+                                                     paginator="true"
+                                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                     rowsPerPageTemplate="10,20,30,40,50">
+                                            <p:column headerText="Committers">
+                                                <h:outputText value="#{f}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </h:panelGrid>
+
+                                </p:tab>
+                                <p:tab title="Committer Contributions">
+                                    <p:spacer height="20"></p:spacer>
+                                    <p:commandButton value="View as cloud" icon="ui-icon-extlink"
+                                                     type="button"
+                                                     style="float:right;" id="committerTagCloud">
+                                    </p:commandButton>
+                                    <p:overlayPanel id="ctc" for="committerTagCloud" hideEffect="fade" dynamic="true"
+                                                    style="width:600px">
+                                        <p:scrollPanel style="width:500px;height:500px">
+                                            <p:tagCloud model="#{m.committersCloud}"
+                                                        style="width: 490px; border: none; "/>
+                                        </p:scrollPanel>
+                                    </p:overlayPanel>
+
+                                    <p:spacer height="30"></p:spacer>
+                                    <p:chart type="pie" model="#{m.committersPie}" style="width:500px;height:500px"/>
+                                </p:tab>
+                                <p:tab title="Modified File Types">
+                                    <p:chart type="pie" model="#{m.fileTypesPie}" style="width:500px;height:500px"/>
+                                </p:tab>
+                                <p:tab title="File Committers">
+                                    <p:dataTable var="f" value="#{m.fileToAuthors}"
+                                                 rows="10"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="10,20,30,40,50">
+                                        <p:column headerText="File" filterBy="#{f.file}" filterMatchMode="contains">
+                                            <h:outputText value="#{f.file}"/>
+                                        </p:column>
+                                        <p:column headerText="Committers">
+                                            <h:outputText value="#{f.authors}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:tab>
+                                <p:tab title="Fixes to Defects">
+                                    <p:dataTable var="f" value="#{m.defectIds}"
+                                                 rows="10"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="10,20,30,40,50">
+                                        <p:column headerText="Defect ID">
+                                            <h:outputText value="#{f}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:tab>
+
+                            </p:tabView>
+                        </p:panel>
+                        <p:separator/>
+                        <p:spacer height="10"></p:spacer>
+
+                    </p:dataGrid>
+                </p:tab>
+                <p:tab title="Newly Added Artifacts">
+                    <p:dataGrid var="m" value="#{diffRelease.releaseDiffResponse.newlyAdded}" columns="2" layout="grid"
+                                rows="10" paginator="true" id="cars1"
+                                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                rowsPerPageTemplate="10,20,30,40,50">
+
+                        <p:panel header="#{m.artifactConfig.name}">
+
+                            <h:panelGrid columns="2" style="width:100%">
+                                <p:outputLabel value="Maven Group Id: "
+                                               style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.mavenCoordinates.groupId}"
+                                               style="font-weight:bold"></p:outputLabel>
+
+                                <p:outputLabel value="Maven Artifact Id: "
+                                               style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.mavenCoordinates.artifactId}"
+                                               style="font-weight:bold"></p:outputLabel>
+
+                                <p:outputLabel value="Maven Version: "
+                                               style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.mavenCoordinates.version}"
+                                               style="font-weight:bold"></p:outputLabel>
+
+                                <p:outputLabel value="Git Revision: "
+                                               style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.gitRevision}" style="font-weight:bold"></p:outputLabel>
+
+                                <p:outputLabel value="Git Repo URL: "
+                                               style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.artifactConfig.repoUrl}"
+                                               style="font-weight:bold"></p:outputLabel>
+
+
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:dataGrid>
+                </p:tab>
+                <p:tab title="Removed Artifacts">
+                    <p:dataGrid var="m" value="#{diffRelease.releaseDiffResponse.removed}" columns="2" layout="grid"
+                                rows="12" paginator="true" id="cars2"
+                                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                rowsPerPageTemplate="10,20,30,40,50">
+
+                        <p:panel header="#{m.artifactConfig.name}">
+
+                            <h:panelGrid columns="2" style="width:100%">
+                                <p:outputLabel value="Maven Group Id: "
+                                               style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.mavenCoordinates.groupId}"
+                                               style="font-weight:bold"></p:outputLabel>
+
+                                <p:outputLabel value="Maven Artifact Id: "
+                                               style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.mavenCoordinates.artifactId}"
+                                               style="font-weight:bold"></p:outputLabel>
+
+                                <p:outputLabel value="Maven Version: "
+                                               style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.mavenCoordinates.version}"
+                                               style="font-weight:bold"></p:outputLabel>
+
+                                <p:outputLabel value="Git Revision: "
+                                               style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.gitRevision}" style="font-weight:bold"></p:outputLabel>
+
+                                <p:outputLabel value="Git Repo URL: "
+                                               style="font-weight:bold"></p:outputLabel>
+                                <p:outputLabel value="#{m.artifactConfig.repoUrl}"
+                                               style="font-weight:bold"></p:outputLabel>
+
+
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:dataGrid>
+                </p:tab>
+                <p:tab title="#{diffRelease.from}">
+                    <p:dataTable var="f" value="#{diffRelease.fromColl.artifacts}"
+                                 rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="10,20,30,40,50">
+                        <p:column headerText="Maven Group Id" filterBy="#{f.mavenCoordinates.groupId}"
+                                  filterMatchMode="contains">
+                            <h:outputText value="#{f.mavenCoordinates.groupId}"/>
+                        </p:column>
+                        <p:column headerText="Maven Artifact Id" filterBy="#{f.mavenCoordinates.artifactId}"
+                                  filterMatchMode="contains">
+                            <h:outputText value="#{f.mavenCoordinates.artifactId}"/>
+                        </p:column>
+                        <p:column headerText="Maven Version" filterBy="#{f.mavenCoordinates.version}"
+                                  filterMatchMode="contains">
+                            <h:outputText value="#{f.mavenCoordinates.version}"/>
+                        </p:column>
+                        <p:column headerText="Data Collection Status" filterBy="#{f.status}" filterMatchMode="contains">
+                            <h:outputText value="#{f.status}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+                <p:tab title="#{diffRelease.to}">
+                    <p:dataTable var="f" value="#{diffRelease.toColl.artifacts}"
+                                 rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="10,20,30,40,50">
+                        <p:column headerText="Maven Group Id" filterBy="#{f.mavenCoordinates.groupId}"
+                                  filterMatchMode="contains">
+                            <h:outputText value="#{f.mavenCoordinates.groupId}"/>
+                        </p:column>
+                        <p:column headerText="Maven Artifact Id" filterBy="#{f.mavenCoordinates.artifactId}"
+                                  filterMatchMode="contains">
+                            <h:outputText value="#{f.mavenCoordinates.artifactId}"/>
+                        </p:column>
+                        <p:column headerText="Maven Version" filterBy="#{f.mavenCoordinates.version}"
+                                  filterMatchMode="contains">
+                            <h:outputText value="#{f.mavenCoordinates.version}"/>
+                        </p:column>
+                        <p:column headerText="Data Collection Status" filterBy="#{f.status}" filterMatchMode="contains">
+                            <h:outputText value="#{f.status}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+            </p:tabView>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>

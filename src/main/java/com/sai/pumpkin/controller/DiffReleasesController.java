@@ -26,6 +26,7 @@ import static java.util.stream.Collectors.toList;
 public class DiffReleasesController {
 
     private List<ReleaseArtifact> releaseArtifacts;
+    private List<ReleaseArtifact> snapshotArtifacts;
     private String from;
     private String to;
     private final PumpkinService pumpkinService = new PumpkinService();
@@ -41,20 +42,50 @@ public class DiffReleasesController {
     private LineChartModel trend;
     private ReleaseMetadata fromColl;
     private ReleaseMetadata toColl;
+    private int timeWindowStartinMinutes = 120;
+    private int timeWindowEndinMinutes = 120;
 
 
     public DiffReleasesController() {
-        releaseArtifacts = pumpkinService.allReleases().stream().filter(r -> !r.getName().contains("SNAPSHOT")).collect(Collectors.toList());
+        List<ReleaseArtifact> releaseArtifacts = pumpkinService.allReleases();
+        this.releaseArtifacts = releaseArtifacts.stream().filter(r -> !r.getName().contains("SNAPSHOT")).collect(Collectors.toList());
+        Collections.reverse(this.releaseArtifacts);
+        this.snapshotArtifacts = releaseArtifacts.stream().filter(r -> r.getName().contains("SNAPSHOT")).collect(Collectors.toList());
+        Collections.reverse(this.snapshotArtifacts);
+
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         from = request.getParameter("from");
         to = request.getParameter("to");
         if (StringUtils.isNoneBlank(from, to)) {
             diff();
         }
+        if (request.getParameter("snapshotDiff") != null) {
+            if (this.snapshotArtifacts.size() > 1) {
+                from = this.snapshotArtifacts.get(this.snapshotArtifacts.size() - 2).getName() + ":" + this.snapshotArtifacts.get(this.snapshotArtifacts.size() - 2).getVersion();
+                to = this.snapshotArtifacts.get(this.snapshotArtifacts.size() - 1).getName() + ":" + this.snapshotArtifacts.get(this.snapshotArtifacts.size() - 1).getVersion();
+                snapshotDiff();
+            }
+        }
     }
 
     public void diff() {
         releaseDiffResponse = pumpkinService.diffReleases(from, to);
+        // Modified
+        modified = releaseDiffResponse.getDiffs().stream().map(r -> new ReleaseDiffDisplayBean(from, to, r)).collect(toList());
+        renderModified = true;
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        fromColl = pumpkinService.releaseMeta(from);
+        stopWatch.stop();
+        System.out.println(" ---- " + stopWatch.getTotalTimeSeconds());
+        stopWatch.start();
+        toColl = pumpkinService.releaseMeta(to);
+        stopWatch.stop();
+        System.out.println(" ---- " + stopWatch.getTotalTimeSeconds());
+    }
+
+    public void snapshotDiff() {
+        releaseDiffResponse = pumpkinService.diffSnapshots(from, to, timeWindowStartinMinutes);
         // Modified
         modified = releaseDiffResponse.getDiffs().stream().map(r -> new ReleaseDiffDisplayBean(from, to, r)).collect(toList());
         renderModified = true;
