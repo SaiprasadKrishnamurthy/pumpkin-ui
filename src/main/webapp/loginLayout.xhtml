@@ -16,8 +16,8 @@
         <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/default.css"/>
         <link type="text/css" rel="stylesheet"
               href="#{request.contextPath}/css/syntaxhighlighter/syntaxhighlighter.css"/>
-        <h:outputStylesheet library="primefaces-extensions" name="codemirror/mode/spec.css" />
-        <h:outputStylesheet library="primefaces-extensions" name="codemirror/mode/tiddlywiki.css" />
+        <h:outputStylesheet library="primefaces-extensions" name="codemirror/mode/spec.css"/>
+        <h:outputStylesheet library="primefaces-extensions" name="codemirror/mode/tiddlywiki.css"/>
 
 
         <style type="text/css">
@@ -44,7 +44,7 @@
         <p:layout fullPage="true">
 
             <p:layoutUnit position="south" size="20" resizable="true">
-                <center></center>
+                <center><a href="http://10.126.219.143:9990/swagger-ui.html">REST API</a></center>
             </p:layoutUnit>
 
             <p:layoutUnit position="center">
@@ -59,6 +59,7 @@
                         <p:submenu label="Diff" icon="fa fa-list">
                             <p:menuitem value="Diff Release Summary" icon="fa fa-minus" url="/releaseSummary.do"/>
                             <p:menuitem value="Diff Releases" icon="fa fa-minus" url="/diffReleases.do"/>
+                            <p:menuitem value="Diff SNAPSHOTS" icon="fa fa-minus" url="/diffSnapshots.do"/>
                             <p:menuitem value="Diff Artifacts" icon="fa fa-minus" url="/diffArtifacts.do"/>
                         </p:submenu>
 
@@ -88,7 +89,6 @@
 
 </f:view>
 <script language="javascript" src="#{request.contextPath}/js/gherkin.js"></script>
-
 
 
 </html>
