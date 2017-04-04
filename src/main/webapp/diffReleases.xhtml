@@ -31,6 +31,11 @@
                                    itemValue="#{c.name}:#{c.version}"/>
 
                 </p:selectOneMenu>
+                <h:outputText value="Ignore files list" id="ignore"/>
+                <p:inputText value="#{diffRelease.ignoreFilesCsv}" size="50"/>
+                <p:tooltip id="toolTipGrow" for="ignore" value="Comma separate the files you dont want to be accounted as a diff (For example: pom.xml)"
+                           showEffect="clip" hideEffect="clip" position="bottom"/>
+
                 <p:commandButton actionListener="#{diffRelease.diff}" value="Diff"
                                  update=":#{p:component('form')}"
                                  icon="fa fa-search" title="Diff Releases"

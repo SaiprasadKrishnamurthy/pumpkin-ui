@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -38,6 +39,7 @@ public class DiffReleasesController {
     private String one;
     private String two;
     private String committersCsv;
+    private String ignoreFilesCsv = "pom.xml,tigerstripe.xml,org.eclipse.core.resources.prefs";
     private List<GitLogEntry> detailedCommits;
     private LineChartModel trend;
     private ReleaseMetadata fromColl;
@@ -72,6 +74,11 @@ public class DiffReleasesController {
         releaseDiffResponse = pumpkinService.diffReleases(from, to);
         // Modified
         modified = releaseDiffResponse.getDiffs().stream().map(r -> new ReleaseDiffDisplayBean(from, to, r)).collect(toList());
+        if (StringUtils.isNotBlank(ignoreFilesCsv)) {
+            modified = modified.stream().filter(rdf ->
+                    rdf.getFilesModified().stream().filter(file -> Stream.of(ignoreFilesCsv.split(",")).anyMatch(ig -> file.contains(ig))).count() < rdf.getFilesModified().size())
+                    .collect(toList());
+        }
         renderModified = true;
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
