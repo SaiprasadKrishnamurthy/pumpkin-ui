@@ -249,10 +249,7 @@
                 </p:tab>
                 <p:tab title="All Artifacts in #{diffRelease.from}">
                     <p:dataTable var="f" value="#{diffRelease.fromColl.artifacts}"
-                                 rows="10"
-                                 paginator="true"
-                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="10,20,30,40,50">
+                                 paginator="false">
                         <p:column headerText="Maven Group Id" filterBy="#{f.mavenCoordinates.groupId}"
                                   filterMatchMode="contains">
                             <h:outputText value="#{f.mavenCoordinates.groupId}"/>
@@ -272,10 +269,7 @@
                 </p:tab>
                 <p:tab title="All Artifacts in #{diffRelease.to}">
                     <p:dataTable var="f" value="#{diffRelease.toColl.artifacts}"
-                                 rows="10"
-                                 paginator="true"
-                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="10,20,30,40,50">
+                                 paginator="false">
                         <p:column headerText="Maven Group Id" filterBy="#{f.mavenCoordinates.groupId}"
                                   filterMatchMode="contains">
                             <h:outputText value="#{f.mavenCoordinates.groupId}"/>
