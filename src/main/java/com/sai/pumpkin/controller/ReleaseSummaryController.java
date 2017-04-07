@@ -74,11 +74,10 @@ public class ReleaseSummaryController {
             from = releaseArtifacts.get(releaseArtifacts.size() - 2);
             to = releaseArtifacts.get(releaseArtifacts.size() - 1);
 
+            currentDiff = pumpkinService.diffReleases(from.getName() + ":" + from.getVersion(), to.getName() + ":" + to.getVersion());
             distinctCommitters = currentDiff.getDiffs().stream()
-                    .peek(a -> System.out.println("\t\t" + a.getAuthorsToChangeSet()))
                     .flatMap(d -> d.getAuthorsToChangeSet().keySet().stream())
                     .collect(toSet());
-            currentDiff = pumpkinService.diffReleases(from.getName() + ":" + from.getVersion(), to.getName() + ":" + to.getVersion());
             totalFilesChanged = currentDiff.getDiffs().stream().mapToLong(g -> g.getNoOfFilesChanged()).sum();
             totalCommitters = distinctCommitters.size();
             totalDefectFixes = currentDiff.getDiffs().stream().mapToLong(g -> g.getDefectIds().size()).sum();
