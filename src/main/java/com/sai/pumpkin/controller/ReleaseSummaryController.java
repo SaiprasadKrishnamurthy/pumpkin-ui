@@ -142,7 +142,7 @@ public class ReleaseSummaryController {
     }
 
     private BarChartModel buildChangeMagnitude() {
-        changeMagnitude = new HorizontalBarChartModel();
+        changeMagnitude = new BarChartModel();
 
         ChartSeries filesChanged = new ChartSeries();
         filesChanged.setLabel("# of files changed");
