@@ -148,8 +148,9 @@ public class ReleaseSummaryController {
         filesChanged.setLabel("# of files changed");
 
         Collections.sort(currentDiff.getDiffs(), (a, b) -> Long.valueOf(a.getNoOfFilesChanged()).compareTo(b.getNoOfFilesChanged()));
+        List<GitLogSummaryResponse> topN = currentDiff.getDiffs().stream().limit(30L).collect(Collectors.toList());
 
-        for (GitLogSummaryResponse b : currentDiff.getDiffs()) {
+        for (GitLogSummaryResponse b : topN) {
             if (b.getNoOfFilesChanged() > 1) {
                 filesChanged.set(b.getTo().getMavenCoordinates().getArtifactId() + " (" + b.getTo().getMavenCoordinates().getVersion() + ") ", b.getNoOfFilesChanged());
             }
@@ -157,7 +158,7 @@ public class ReleaseSummaryController {
 
         changeMagnitude.addSeries(filesChanged);
 
-        changeMagnitude.setTitle("Change Magnitude of every artifact (minimum 2 files changed)");
+        changeMagnitude.setTitle("Top 30 Change Magnitude of every artifact (minimum 2 files changed)");
         changeMagnitude.setLegendPosition("e");
         changeMagnitude.setStacked(true);
 
