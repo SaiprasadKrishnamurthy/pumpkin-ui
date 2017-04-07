@@ -1,9 +1,6 @@
 package com.sai.pumpkin.controller;
 
-import com.sai.pumpkin.model.ChangeSetEntry;
-import com.sai.pumpkin.model.GitLogSummaryResponse;
-import com.sai.pumpkin.model.ReleaseArtifact;
-import com.sai.pumpkin.model.ReleaseDiffResponse;
+import com.sai.pumpkin.model.*;
 import com.sai.pumpkin.service.PumpkinService;
 import lombok.Data;
 import org.apache.commons.lang3.time.DateUtils;
@@ -38,6 +35,10 @@ public class ReleaseSummaryController {
     private PieChartModel fileTypesPie;
     private int totalModifiedArtifacts;
     private Set<String> distinctCommitters;
+    private Set<String> distinctDefects;
+    private Set<String> modifiedArtifacts;
+    private Set<MavenGitVersionMapping> mavenGitMappings;
+
 
     public ReleaseSummaryController() {
         releaseArtifacts = pumpkinService.allReleases();
@@ -80,8 +81,11 @@ public class ReleaseSummaryController {
                     .collect(toSet());
             totalFilesChanged = currentDiff.getDiffs().stream().mapToLong(g -> g.getNoOfFilesChanged()).sum();
             totalCommitters = distinctCommitters.size();
-            totalDefectFixes = currentDiff.getDiffs().stream().mapToLong(g -> g.getDefectIds().size()).sum();
+            distinctDefects = currentDiff.getDiffs().stream().flatMap(g -> g.getDefectIds().stream()).collect(Collectors.toSet());
+            totalDefectFixes = distinctDefects.size();
             totalModifiedArtifacts = currentDiff.getDiffs().size();
+
+            mavenGitMappings = currentDiff.getDiffs().stream().map(gls -> gls.getFrom()).collect(Collectors.toSet());
 
             changeMagnitude = buildChangeMagnitude();
 

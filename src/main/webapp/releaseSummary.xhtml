@@ -27,43 +27,78 @@
                     <h:panelGrid columns="4">
                         <p:panel header="Total files changed">
                             <h:panelGrid columns="2">
-                                <p:knob max="#{rs.totalFilesChanged}" foregroundColor="green"
-                                        backgroundgroundColor="green"
+                                <p:knob max="#{rs.totalFilesChanged}" foregroundColor="#3cba54"
+                                        backgroundgroundColor="#3cba54"
                                         step="50" value="#{rs.totalFilesChanged}"
                                         disabled="true" labelTemplate="{value}"/>
                                 <h:outputText value="Files modified"
-                                              style="color:green;font-size: 1.3em"/>
+                                              style="color:#3cba54;font-size: 1.3em"/>
                             </h:panelGrid>
                         </p:panel>
                         <p:panel header="Total modified artifacts">
-                            <h:panelGrid columns="2">
-
+                            <h:panelGrid columns="4">
                                 <p:knob max="#{rs.totalModifiedArtifacts}" step="50"
                                         value="#{rs.totalModifiedArtifacts}"
-                                        disabled="true" labelTemplate="{value}" foregroundColor="blue"
-                                        backgroundgroundColor="blue"/>
+                                        disabled="true" labelTemplate="{value}" foregroundColor="#db3236"
+                                        backgroundgroundColor="#db3236"/>
                                 <h:outputText value="Artifacts modified"
-                                              style="color:blue;font-size: 1.3em"/>
+                                              style="color:#db3236;font-size: 1.3em"/>
+                                <p:commandButton id="arts" icon="fa fa-question-circle" type="button" />
+
+                                <p:overlayPanel for="arts" hideEffect="fade" dynamic="true" style="width:600px">
+                                    <p:dataTable var="comm" value="#{rs.mavenGitMappings}" rows="10" paginator="true">
+                                        <p:column headerText="Maven Group Id" filterBy="#{comm.mavenCoordinates.groupId}" filterMatchMode="contains">
+                                            <h:outputText value="#{comm.mavenCoordinates.groupId}" />
+                                        </p:column>
+                                        <p:column headerText="Maven Artifact Id" filterBy="#{comm.mavenCoordinates.artifactId}" filterMatchMode="contains">
+                                            <h:outputText value="#{comm.mavenCoordinates.artifactId}" />
+                                        </p:column>
+                                        <p:column headerText="Git Repo" filterBy="#{comm.artifactConfig.repoUrl}" filterMatchMode="contains">
+                                            <h:outputText value="#{comm.artifactConfig.repoUrl}" />
+                                        </p:column>
+                                        <p:column headerText="Pom file path" filterBy="#{comm.artifactConfig.pomPath}" filterMatchMode="contains">
+                                            <h:outputText value="#{comm.artifactConfig.pomPath}" />
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:overlayPanel>
                             </h:panelGrid>
                         </p:panel>
                         <p:panel header="Total distinct committers">
-                            <h:panelGrid columns="2">
+                            <h:panelGrid columns="4">
 
                                 <p:knob max="#{rs.totalCommitters}" step="50" value="#{rs.totalCommitters}"
-                                        disabled="true" labelTemplate="{value}" foregroundColor="brown"
-                                        backgroundgroundColor="brown"/>
-                                <h:outputText value="Commiters"
-                                              style="color:brown;font-size: 1.3em"/>
+                                        disabled="true" labelTemplate="{value}" foregroundColor="#f4c20d"
+                                        backgroundgroundColor="#f4c20d"/>
+                                <h:outputText  value="Commiters"
+                                              style="color:#f4c20d;font-size: 1.3em"/>
+                                <p:commandButton id="committers" icon="fa fa-question-circle" type="button" />
+
+                                <p:overlayPanel for="committers" hideEffect="fade" dynamic="true" style="width:600px">
+                                    <p:dataTable var="comm" value="#{rs.distinctCommitters}" rows="10" paginator="true">
+                                        <p:column headerText="Committer" filterBy="#{comm}" filterMatchMode="contains">
+                                            <h:outputText value="#{comm}" />
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:overlayPanel>
                             </h:panelGrid>
                         </p:panel>
                         <p:panel header="Total number of defects fixed">
-                            <h:panelGrid columns="2">
+                            <h:panelGrid columns="4">
 
                                 <p:knob max="#{rs.totalDefectFixes}" step="50" value="#{rs.totalDefectFixes}"
-                                        disabled="true" labelTemplate="{value}" foregroundColor="red"
-                                        backgroundgroundColor="red"/>
+                                        disabled="true" labelTemplate="{value}" foregroundColor="#4885ed"
+                                        backgroundgroundColor="#4885ed"/>
                                 <h:outputText value="Defect fixes"
-                                              style="color:red;font-size: 1.3em"/>
+                                              style="color:#4885ed;font-size: 1.3em"/>
+                                <p:commandButton id="defects" icon="fa fa-question-circle" type="button" />
+
+                                <p:overlayPanel for="defects" hideEffect="fade" dynamic="true" style="width:600px">
+                                    <p:dataTable var="comm" value="#{rs.distinctDefects}" rows="10" paginator="true">
+                                        <p:column headerText="Defect Id" filterBy="#{comm}" filterMatchMode="contains">
+                                            <h:outputText value="#{comm}" />
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:overlayPanel>
                             </h:panelGrid>
                         </p:panel>
                     </h:panelGrid>
