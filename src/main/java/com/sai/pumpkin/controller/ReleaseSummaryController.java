@@ -155,9 +155,9 @@ public class ReleaseSummaryController {
                 .collect(Collectors.toList());
 
 
-        System.out.println(topN);
 
         for (GitLogSummaryResponse b : topN) {
+            System.out.println(b.getFrom().getArtifactConfig().getName() +" --> "+b.getNoOfFilesChanged());
             filesChanged.set(b.getTo().getMavenCoordinates().getArtifactId() + " (" + b.getTo().getMavenCoordinates().getVersion() + ") ", b.getNoOfFilesChanged());
         }
 
