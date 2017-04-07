@@ -167,7 +167,7 @@ public class ReleaseSummaryController {
         changeMagnitude.setStacked(true);
 
         Axis xAxis = changeMagnitude.getAxis(AxisType.X);
-        xAxis.setTickAngle(-45);
+        xAxis.setTickAngle(-75);
 
         Axis yAxis = changeMagnitude.getAxis(AxisType.Y);
         xAxis.setLabel("Artifact name");
