@@ -37,6 +37,7 @@ public class ReleaseSummaryController {
     private List<String> arr = Arrays.asList("1", "2", "3", "4");
     private PieChartModel fileTypesPie;
     private int totalModifiedArtifacts;
+    private Set<String> distinctCommitters;
 
     public ReleaseSummaryController() {
         releaseArtifacts = pumpkinService.allReleases();
@@ -73,9 +74,10 @@ public class ReleaseSummaryController {
             from = releaseArtifacts.get(releaseArtifacts.size() - 2);
             to = releaseArtifacts.get(releaseArtifacts.size() - 1);
 
+            distinctCommitters = currentDiff.getDiffs().stream().flatMap(d -> d.getAuthorsToChangeSet().keySet().stream()).collect(toSet());
             currentDiff = pumpkinService.diffReleases(from.getName() + ":" + from.getVersion(), to.getName() + ":" + to.getVersion());
             totalFilesChanged = currentDiff.getDiffs().stream().mapToLong(g -> g.getNoOfFilesChanged()).sum();
-            totalCommitters = currentDiff.getDiffs().stream().mapToLong(g -> g.getAuthorsToChangeSet().size()).sum();
+            totalCommitters = distinctCommitters.size();
             totalDefectFixes = currentDiff.getDiffs().stream().mapToLong(g -> g.getDefectIds().size()).sum();
             totalModifiedArtifacts = currentDiff.getDiffs().size();
 
