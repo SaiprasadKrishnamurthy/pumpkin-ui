@@ -149,8 +149,11 @@ public class ReleaseSummaryController {
 
         List<GitLogSummaryResponse> topN = currentDiff.getDiffs().stream()
                 .sorted((a, b) -> Long.valueOf(b.getNoOfFilesChanged()).compareTo(a.getNoOfFilesChanged()))
+                .collect(Collectors.toList())
+                .stream()
                 .limit(30L)
                 .collect(Collectors.toList());
+
         System.out.println(topN);
 
         for (GitLogSummaryResponse b : topN) {
