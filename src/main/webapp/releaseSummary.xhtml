@@ -46,15 +46,18 @@
                                 <p:commandButton id="arts" icon="fa fa-question-circle" type="button" />
 
                                 <p:overlayPanel for="arts" hideEffect="fade" dynamic="true" style="width:600px">
-                                    <p:dataTable var="comm" value="#{rs.mavenGitMappings}" rows="10" paginator="true">
+                                    <p:dataTable var="comm" value="#{rs.mavenGitMappings}" rows="10" paginator="true" resizableColumns="true">
                                         <p:column headerText="Maven Group Id" filterBy="#{comm.mavenCoordinates.groupId}" filterMatchMode="contains">
                                             <h:outputText value="#{comm.mavenCoordinates.groupId}" />
                                         </p:column>
                                         <p:column headerText="Maven Artifact Id" filterBy="#{comm.mavenCoordinates.artifactId}" filterMatchMode="contains">
                                             <h:outputText value="#{comm.mavenCoordinates.artifactId}" />
                                         </p:column>
-                                        <p:column headerText="Git Repo" filterBy="#{comm.artifactConfig.repoUrl}" filterMatchMode="contains">
-                                            <h:outputText value="#{comm.artifactConfig.repoUrl}" />
+                                        <p:column headerText="Version in current release" filterBy="#{comm.artifactConfig.version}" filterMatchMode="contains">
+                                            <h:outputText value="#{comm.mavenCoordinates.version}" />
+                                        </p:column>
+                                        <p:column headerText="Git Repo Name" filterBy="#{comm.artifactConfig.repoUrl}" filterMatchMode="contains">
+                                            <h:outputText value="#{comm.artifactConfig.repoName}" />
                                         </p:column>
                                         <p:column headerText="Pom file path" filterBy="#{comm.artifactConfig.pomPath}" filterMatchMode="contains">
                                             <h:outputText value="#{comm.artifactConfig.pomPath}" />
@@ -74,7 +77,7 @@
                                 <p:commandButton id="committers" icon="fa fa-question-circle" type="button" />
 
                                 <p:overlayPanel for="committers" hideEffect="fade" dynamic="true" style="width:600px">
-                                    <p:dataTable var="comm" value="#{rs.distinctCommitters}" rows="10" paginator="true">
+                                    <p:dataTable var="comm" value="#{rs.distinctCommitters}" rows="10" paginator="true" resizableColumns="true">
                                         <p:column headerText="Committer" filterBy="#{comm}" filterMatchMode="contains">
                                             <h:outputText value="#{comm}" />
                                         </p:column>
@@ -93,7 +96,7 @@
                                 <p:commandButton id="defects" icon="fa fa-question-circle" type="button" />
 
                                 <p:overlayPanel for="defects" hideEffect="fade" dynamic="true" style="width:600px">
-                                    <p:dataTable var="comm" value="#{rs.distinctDefects}" rows="10" paginator="true">
+                                    <p:dataTable var="comm" value="#{rs.distinctDefects}" rows="10" paginator="true" resizableColumns="true">
                                         <p:column headerText="Defect Id" filterBy="#{comm}" filterMatchMode="contains">
                                             <h:outputText value="#{comm}" />
                                         </p:column>

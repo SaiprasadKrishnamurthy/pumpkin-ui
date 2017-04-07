@@ -22,4 +22,5 @@ public class MavenGitVersionMapping implements Serializable {
     public String getDisplayDate() {
         return dateFormat.format(new Date(timestamp));
     }
+
 }
