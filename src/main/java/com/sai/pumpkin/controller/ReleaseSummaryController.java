@@ -148,7 +148,7 @@ public class ReleaseSummaryController {
         filesChanged.setLabel("# of files changed");
 
         Collections.sort(currentDiff.getDiffs(), (a, b) -> Long.valueOf(a.getNoOfFilesChanged()).compareTo(b.getNoOfFilesChanged()));
-        List<GitLogSummaryResponse> topN = currentDiff.getDiffs().stream().limit(30L).collect(Collectors.toList());
+        List<GitLogSummaryResponse> topN = currentDiff.getDiffs(); //currentDiff.getDiffs().stream().limit(30L).collect(Collectors.toList());
 
         for (GitLogSummaryResponse b : topN) {
             if (b.getNoOfFilesChanged() > 1) {
