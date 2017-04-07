@@ -45,7 +45,7 @@
                                               style="color:#db3236;font-size: 1.3em"/>
                                 <p:commandButton id="arts" icon="fa fa-question-circle" type="button" />
 
-                                <p:overlayPanel for="arts" hideEffect="fade" dynamic="true" style="width:900px">
+                                <p:overlayPanel for="arts" hideEffect="fade" dynamic="true" style="width:600px">
                                     <p:dataTable var="comm" value="#{rs.mavenGitMappings}" rows="10" paginator="true" resizableColumns="true">
                                         <p:column headerText="Maven Group Id" filterBy="#{comm.mavenCoordinates.groupId}" filterMatchMode="contains">
                                             <h:outputText value="#{comm.mavenCoordinates.groupId}" />
@@ -58,9 +58,6 @@
                                         </p:column>
                                         <p:column headerText="Git Repo Name" filterBy="#{comm.artifactConfig.repoUrl}" filterMatchMode="contains">
                                             <h:outputText value="#{comm.artifactConfig.repoName}" />
-                                        </p:column>
-                                        <p:column headerText="Pom file path" filterBy="#{comm.artifactConfig.pomPath}" filterMatchMode="contains">
-                                            <h:outputText value="#{comm.artifactConfig.pomPath}" />
                                         </p:column>
                                     </p:dataTable>
                                 </p:overlayPanel>
