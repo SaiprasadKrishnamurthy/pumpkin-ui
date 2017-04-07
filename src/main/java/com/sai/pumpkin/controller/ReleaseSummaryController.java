@@ -155,9 +155,8 @@ public class ReleaseSummaryController {
                 .collect(Collectors.toList());
 
 
-
         for (GitLogSummaryResponse b : topN) {
-            System.out.println(b.getFrom().getArtifactConfig().getName() +" --> "+b.getNoOfFilesChanged());
+            System.out.println(b.getFrom().getArtifactConfig().getName() + " --> " + b.getNoOfFilesChanged());
             filesChanged.set(b.getTo().getMavenCoordinates().getArtifactId() + " (" + b.getTo().getMavenCoordinates().getVersion() + ") ", b.getNoOfFilesChanged());
         }
 
@@ -168,10 +167,12 @@ public class ReleaseSummaryController {
         changeMagnitude.setStacked(true);
 
         Axis xAxis = changeMagnitude.getAxis(AxisType.X);
-        xAxis.setLabel("# no of files changed");
+        xAxis.setTickAngle(-45);
 
         Axis yAxis = changeMagnitude.getAxis(AxisType.Y);
-        yAxis.setLabel("Artifact name");
+        xAxis.setLabel("Artifact name");
+        yAxis.setLabel("# no of files changed");
+
         changeMagnitude.setAnimate(true);
         changeMagnitude.setShowPointLabels(true);
         changeMagnitude.setShowDatatip(true);
