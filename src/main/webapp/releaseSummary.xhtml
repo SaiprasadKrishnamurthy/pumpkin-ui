@@ -53,7 +53,7 @@
                                         <p:column headerText="Maven Artifact Id" filterBy="#{comm.mavenCoordinates.artifactId}" filterMatchMode="contains">
                                             <h:outputText value="#{comm.mavenCoordinates.artifactId}" />
                                         </p:column>
-                                        <p:column headerText="Version in current release" filterBy="#{comm.artifactConfig.version}" filterMatchMode="contains">
+                                        <p:column headerText="Version in current release" filterBy="#{comm.mavenCoordinates.version}" filterMatchMode="contains">
                                             <h:outputText value="#{comm.mavenCoordinates.version}" />
                                         </p:column>
                                         <p:column headerText="Git Repo Name" filterBy="#{comm.artifactConfig.repoUrl}" filterMatchMode="contains">
