@@ -152,9 +152,7 @@ public class ReleaseSummaryController {
         System.out.println(topN);
 
         for (GitLogSummaryResponse b : topN) {
-            if (b.getNoOfFilesChanged() > 1) {
-                filesChanged.set(b.getTo().getMavenCoordinates().getArtifactId() + " (" + b.getTo().getMavenCoordinates().getVersion() + ") ", b.getNoOfFilesChanged());
-            }
+            filesChanged.set(b.getTo().getMavenCoordinates().getArtifactId() + " (" + b.getTo().getMavenCoordinates().getVersion() + ") ", b.getNoOfFilesChanged());
         }
 
         changeMagnitude.addSeries(filesChanged);
