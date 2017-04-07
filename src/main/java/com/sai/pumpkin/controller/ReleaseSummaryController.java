@@ -30,7 +30,7 @@ public class ReleaseSummaryController {
     private long totalFilesChanged;
     private long totalCommitters;
     private long totalDefectFixes;
-    private HorizontalBarChartModel changeMagnitude;
+    private BarChartModel changeMagnitude;
     private LineChartModel model;
     private LineChartModel commitTrends;
     private DashboardModel dash;
@@ -141,7 +141,7 @@ public class ReleaseSummaryController {
         }
     }
 
-    private HorizontalBarChartModel buildChangeMagnitude() {
+    private BarChartModel buildChangeMagnitude() {
         changeMagnitude = new HorizontalBarChartModel();
 
         ChartSeries filesChanged = new ChartSeries();
