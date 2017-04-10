@@ -19,5 +19,6 @@ public class GitLogEntry implements Serializable {
     private List<ChangeSetEntry> changes;
     private MavenCoordinates mavenCoordinates;
     private List<String> changeUUIDs;
+    private long timestamp;
 
 }

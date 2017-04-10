@@ -177,4 +177,17 @@ public class PumpkinService {
         Map response = restTemplate.getForObject(String.format(url, from, to, timeWindowInMinutes), Map.class);
         return MAPPER.convertValue(response, ReleaseDiffResponse.class);
     }
+
+    public List<Team> allTeams() {
+        String url = "http://10.126.219.143:9990/teams";
+        List<Map> response = restTemplate.getForObject(url, List.class);
+        return response.stream().map(r -> MAPPER.convertValue(r, Team.class)).collect(toList());
+    }
+
+    public List<GitLogEntry> teamActivity(String from, String to, String teamName) {
+        String url = "http://10.126.219.143:9990/teamstats?releaseCoordinates1=%s&releaseCoordinates2=%s&teamName=%s";
+        System.out.println(String.format(url, from, to, teamName.trim()));
+        List response = restTemplate.getForObject(String.format(url, from, to, teamName.trim()), List.class);
+        return (List<GitLogEntry>) response.stream().map(r -> MAPPER.convertValue(r, GitLogEntry.class)).collect(toList());
+    }
 }

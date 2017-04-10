@@ -18,6 +18,7 @@
               href="#{request.contextPath}/css/syntaxhighlighter/syntaxhighlighter.css"/>
         <h:outputStylesheet library="primefaces-extensions" name="codemirror/mode/spec.css"/>
         <h:outputStylesheet library="primefaces-extensions" name="codemirror/mode/tiddlywiki.css"/>
+        <script src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=AIzaSyC3-Nn-zYvjjk5IhLcEyt0pvmJKeV6k3xk"></script>
 
 
         <style type="text/css">
@@ -73,6 +74,9 @@
                         </p:submenu>
                         <p:submenu label="Jobs" icon="fa fa-list">
                             <p:menuitem value="Job stats" url="/jobs.do" icon="fa fa-dashboard"/>
+                        </p:submenu>
+                        <p:submenu label="Team Space" icon="fa fa-list">
+                            <p:menuitem value="Team Activity" url="/team-activity.do" icon="fa fa-group"/>
                         </p:submenu>
                         <f:facet name="options">
                             <a href="index.do"><img src="images/pumpkin.png" height="35" alt="Logo"/></a>
