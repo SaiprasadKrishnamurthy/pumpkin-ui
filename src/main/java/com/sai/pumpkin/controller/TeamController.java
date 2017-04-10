@@ -6,6 +6,7 @@ import com.sai.pumpkin.model.ReleaseArtifact;
 import com.sai.pumpkin.model.Team;
 import com.sai.pumpkin.service.PumpkinService;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.chart.*;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
@@ -15,6 +16,8 @@ import org.primefaces.model.tagcloud.DefaultTagCloudItem;
 import org.primefaces.model.tagcloud.DefaultTagCloudModel;
 import org.primefaces.model.tagcloud.TagCloudModel;
 
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -51,13 +54,24 @@ public class TeamController {
     private MapModel simpleModel;
 
 
-    public TeamController() {
+    public TeamController() throws Exception {
         releaseArtifacts = pumpkinService.allReleases().stream().filter(r -> r.getSnapshot() == null || !r.getSnapshot()).collect(Collectors.toList());
         teams = pumpkinService.allTeams();
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        from = request.getParameter("from");
+        to = request.getParameter("to");
+        teamName = request.getParameter("teamName");
+        if (StringUtils.isNoneBlank(from, to, teamName)) {
+            search();
+        }
     }
 
     public void search() throws Exception {
-        teamDetail = teams.stream().filter(t -> t.getName().equals(teamName)).findFirst().get();
+        Optional<Team> first = teams.stream().filter(t -> t.getName().equals(teamName)).findFirst();
+        if (!first.isPresent()) {
+            return;
+        }
+        teamDetail = first.get();
         Function<String, String> identity = filePath -> {
             if (filePath.contains(".")) {
                 return filePath.substring(filePath.lastIndexOf("."));
