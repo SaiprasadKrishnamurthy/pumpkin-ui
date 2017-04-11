@@ -190,4 +190,11 @@ public class PumpkinService {
         List response = restTemplate.getForObject(String.format(url, from, to, teamName.trim()), List.class);
         return (List<GitLogEntry>) response.stream().map(r -> MAPPER.convertValue(r, GitLogEntry.class)).collect(toList());
     }
+
+    public Map<String, Integer> repoActivities(long hours_ago) {
+        String url = "http://10.126.219.143:9990/commit-counts-per-repo?sinceTimestamp=%s";
+        System.out.println(String.format(url, hours_ago));
+        Map<String, Integer> response = restTemplate.getForObject(String.format(url, hours_ago), Map.class);
+        return response;
+    }
 }

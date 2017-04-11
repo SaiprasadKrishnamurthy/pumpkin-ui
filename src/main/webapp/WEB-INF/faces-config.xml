@@ -50,6 +50,11 @@
         <managed-bean-class>com.sai.pumpkin.controller.TeamController</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>repoActivity</managed-bean-name>
+        <managed-bean-class>com.sai.pumpkin.controller.RepoActivityController</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
     <application>
         <action-listener>org.primefaces.application.DialogActionListener</action-listener>
         <navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>

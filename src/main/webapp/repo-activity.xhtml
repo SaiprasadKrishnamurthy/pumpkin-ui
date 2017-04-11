@@ -1,0 +1,22 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="loginLayout.xhtml">
+
+    <ui:define name="main">
+
+        <p:spacer width="10" height="30"/>
+
+        <h:form id="form">
+            <h2>Repo Activity (Based on the Last 48 hours)</h2>
+            <h4>* Average No of commits per day per repository</h4>
+            <p:dataGrid var="m" value="#{repoActivity.gauges}" columns="3" layout="grid"
+                        rows="100" paginator="true" id="cars"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="10,20,30,40,50,100,150">
+                <p:chart type="metergauge" model="#{m}" style="width:400px;height:250px"/>
+            </p:dataGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>
