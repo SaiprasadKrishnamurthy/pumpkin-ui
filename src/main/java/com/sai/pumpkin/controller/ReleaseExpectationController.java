@@ -17,6 +17,7 @@ public class ReleaseExpectationController {
     private List<ReleaseExpectation> tests;
     private final PumpkinService pumpkinService = new PumpkinService();
     private String result;
+    private String featureText;
     private ReleaseExpectation created = new ReleaseExpectation();
 
     public ReleaseExpectationController() {

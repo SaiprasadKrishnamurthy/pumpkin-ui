@@ -23,11 +23,10 @@
                                            theme="rubyblue" value="#{t.featureText}"
                                            lineNumbers="true" style="height: auto" id="ExtCodeMirror"
                                            widgetVar="ExtCodeMirror"/>
-                            <p:inputText value="#{t.failureSlackWebhook}" size="88"/>
                             <p:toolbar>
                                 <f:facet name="left">
                                     <p:commandButton action="#{test.update}" value="Save" icon="fa fa-save"
-                                                     update="form">
+                                                     update="form" ajax="false">
                                         <f:param name="name" value="#{t.name}"/>
                                     </p:commandButton>
                                 </f:facet>
