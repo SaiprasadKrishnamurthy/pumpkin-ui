@@ -11,10 +11,9 @@ import org.springframework.util.StopWatch;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -41,11 +40,14 @@ public class DiffReleasesController {
     private String committersCsv;
     private String ignoreFilesCsv = "pom.xml,tigerstripe.xml,org.eclipse.core.resources.prefs";
     private List<GitLogEntry> detailedCommits;
+    private Set<MavenCoordinates> committerArtifacts;
     private LineChartModel trend;
     private ReleaseMetadata fromColl;
     private ReleaseMetadata toColl;
     private int timeWindowStartinMinutes = 120;
     private int timeWindowEndinMinutes = 120;
+    private final Pattern defectIdPattern = Pattern.compile(System.getProperty("defectIdRegex").trim());
+    private Set<String> defects;
 
 
     public DiffReleasesController() throws Exception {
@@ -114,6 +116,14 @@ public class DiffReleasesController {
 
     public void detailedCommits() throws Exception {
         detailedCommits = pumpkinService.detailedCommits(from, to, committersCsv);
+        committerArtifacts = detailedCommits.stream().map(GitLogEntry::getMavenCoordinates).collect(Collectors.toSet());
+
+        detailedCommits.stream().forEach(gitLogEntry -> {
+            Matcher matcher = defectIdPattern.matcher(gitLogEntry.getCommitMessage());
+            while (matcher.find()) {
+                defects.add(matcher.group());
+            }
+        });
         buildTrends(detailedCommits);
         renderModified = true;
     }
@@ -138,7 +148,7 @@ public class DiffReleasesController {
 
 
         Axis y = trend.getAxis(AxisType.Y);
-        y.setLabel("# of commits");
+        y.setLabel("# of files");
         trend.setLegendPosition("e");
         trend.setTitle("Commit trends");
         trend.setAnimate(true);
