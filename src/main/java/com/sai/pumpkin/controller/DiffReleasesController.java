@@ -47,7 +47,7 @@ public class DiffReleasesController {
     private int timeWindowStartinMinutes = 120;
     private int timeWindowEndinMinutes = 120;
     private final Pattern defectIdPattern = Pattern.compile(System.getProperty("defectIdRegex").trim());
-    private Set<String> defects;
+    private Set<String> defects = new TreeSet<>();
 
 
     public DiffReleasesController() throws Exception {
@@ -115,6 +115,7 @@ public class DiffReleasesController {
 
 
     public void detailedCommits() throws Exception {
+        defects.clear();
         detailedCommits = pumpkinService.detailedCommits(from, to, committersCsv);
         committerArtifacts = detailedCommits.stream().map(GitLogEntry::getMavenCoordinates).collect(Collectors.toSet());
 
