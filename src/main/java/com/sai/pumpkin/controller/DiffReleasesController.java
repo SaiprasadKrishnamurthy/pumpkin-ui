@@ -48,7 +48,7 @@ public class DiffReleasesController {
     private int timeWindowEndinMinutes = 120;
 
 
-    public DiffReleasesController() {
+    public DiffReleasesController() throws Exception {
         List<ReleaseArtifact> releaseArtifacts = pumpkinService.allReleases();
         this.releaseArtifacts = releaseArtifacts.stream().filter(r -> !r.getName().contains("SNAPSHOT")).collect(Collectors.toList());
         Collections.reverse(this.releaseArtifacts);
@@ -58,8 +58,12 @@ public class DiffReleasesController {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         from = request.getParameter("from");
         to = request.getParameter("to");
-        if (StringUtils.isNoneBlank(from, to)) {
+        committersCsv = request.getParameter("committersCsv");
+        if (StringUtils.isNoneBlank(from, to) && request.getParameter("detailedCommits") == null) {
             diff();
+        }
+        if (StringUtils.isNoneBlank(from, to, committersCsv) && request.getParameter("detailedCommits") != null) {
+            detailedCommits();
         }
         if (request.getParameter("snapshotDiff") != null) {
             if (this.snapshotArtifacts.size() > 1) {

@@ -76,7 +76,7 @@
                                 <p:overlayPanel for="committers" hideEffect="fade" dynamic="true" style="width:600px">
                                     <p:dataTable var="comm" value="#{rs.distinctCommitters}" rows="10" paginator="true" resizableColumns="true">
                                         <p:column headerText="Committer" filterBy="#{comm}" filterMatchMode="contains">
-                                            <h:outputText value="#{comm}" />
+                                            <a href="detailedCommitsSearch.do?from=#{rs.from.name}:#{rs.from.version}&amp;to=#{rs.to.name}:#{rs.to.version}&amp;committersCsv=#{comm}&amp;detailedCommits=true" target="_blank">#{comm}</a>
                                         </p:column>
                                     </p:dataTable>
                                 </p:overlayPanel>
