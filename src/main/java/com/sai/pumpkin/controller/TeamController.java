@@ -91,42 +91,45 @@ public class TeamController {
             detailedCommits = pumpkinService.teamActivity(from, to, teamName);
         }
         renderModified = true;
-        files = detailedCommits.stream().flatMap(gl -> gl.getChanges().stream()).map(cs -> cs.getFilePath()).collect(toSet());
-        artifacts = detailedCommits.stream().map(gl -> gl.getMavenCoordinates()).collect(Collectors.toSet());
-        defects = new TreeSet<>();
-        detailedCommits.stream().forEach(gitLogEntry -> {
-            Matcher matcher = defectIdPattern.matcher(gitLogEntry.getCommitMessage());
-            while (matcher.find()) {
-                defects.add(matcher.group());
-            }
-        });
+        if (!detailedCommits.isEmpty()) {
+            files = detailedCommits.stream().flatMap(gl -> gl.getChanges().stream()).map(cs -> cs.getFilePath()).collect(toSet());
+            artifacts = detailedCommits.stream().map(gl -> gl.getMavenCoordinates()).collect(Collectors.toSet());
+            defects = new TreeSet<>();
+            detailedCommits.stream().forEach(gitLogEntry -> {
+                Matcher matcher = defectIdPattern.matcher(gitLogEntry.getCommitMessage());
+                while (matcher.find()) {
+                    defects.add(matcher.group());
+                }
+            });
 
-        committersCloud = new DefaultTagCloudModel();
-        Map<String, Long> filesToAuthorsCount = detailedCommits.stream().map(gl -> gl.getAuthor()).collect(groupingBy(Function.identity(), counting()));
-        long min = filesToAuthorsCount.values().stream().min(Long::compare).get();
-        long max = filesToAuthorsCount.values().stream().max(Long::compare).get();
-        filesToAuthorsCount.entrySet().forEach(entry -> {
-            committersCloud.addTag(new DefaultTagCloudItem(entry.getKey().trim(), (int) scale(entry.getValue(), min, max, 1, 5)));
-        });
+            committersCloud = new DefaultTagCloudModel();
+            Map<String, Long> filesToAuthorsCount = detailedCommits.stream().map(gl -> gl.getAuthor()).collect(groupingBy(Function.identity(), counting()));
+
+            long min = filesToAuthorsCount.values().stream().min(Long::compare).get();
+            long max = filesToAuthorsCount.values().stream().max(Long::compare).get();
+            filesToAuthorsCount.entrySet().forEach(entry -> {
+                committersCloud.addTag(new DefaultTagCloudItem(entry.getKey().trim(), (int) scale(entry.getValue(), min, max, 1, 5)));
+            });
 
 
-        Map<String, Long> fileTypesCount = files.stream().collect(groupingBy(identity, counting()));
-        fileTypesPie = new PieChartModel();
-        fileTypesCount.entrySet().forEach(entry -> {
-            fileTypesPie.set(entry.getKey().trim(), entry.getValue());
-        });
-        fileTypesPie.setTitle("File types modified");
-        fileTypesPie.setLegendPosition("e");
-        fileTypesPie.setShowDataLabels(true);
-        fileTypesPie.setDiameter(350);
+            Map<String, Long> fileTypesCount = files.stream().collect(groupingBy(identity, counting()));
+            fileTypesPie = new PieChartModel();
+            fileTypesCount.entrySet().forEach(entry -> {
+                fileTypesPie.set(entry.getKey().trim(), entry.getValue());
+            });
+            fileTypesPie.setTitle("File types modified");
+            fileTypesPie.setLegendPosition("e");
+            fileTypesPie.setShowDataLabels(true);
+            fileTypesPie.setDiameter(350);
 
-        buildTrends(detailedCommits);
+            buildTrends(detailedCommits);
 
-        simpleModel = new DefaultMapModel();
-        teamDetail.getMembers().forEach(tm -> {
-            LatLng coord1 = new LatLng(tm.getLocationLat(), tm.getLocationLong());
-            simpleModel.addOverlay(new Marker(coord1, teamName));
-        });
+            simpleModel = new DefaultMapModel();
+            teamDetail.getMembers().forEach(tm -> {
+                LatLng coord1 = new LatLng(tm.getLocationLat(), tm.getLocationLong());
+                simpleModel.addOverlay(new Marker(coord1, teamName));
+            });
+        }
     }
 
     public static long scale(final long valueIn, final long baseMin, final long baseMax, final long limitMin, final long limitMax) {
