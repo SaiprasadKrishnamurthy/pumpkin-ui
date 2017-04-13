@@ -73,6 +73,7 @@ public class TeamController {
     }
 
     public void search() throws Exception {
+        noData = false;
         Optional<Team> first = teams.stream().filter(t -> t.getName().equals(teamName)).findFirst();
         if (!first.isPresent()) {
             return;
