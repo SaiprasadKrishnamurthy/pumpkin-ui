@@ -3,6 +3,9 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:fn="http://java.sun.com/jstl/function"
+
                 template="loginLayout.xhtml">
 
     <ui:define name="main">
@@ -112,6 +115,11 @@
                         <p:column headerText="Git Revision">
                             <p:outputLabel value="#{log.revision}"/>
                         </p:column>
+                        <p:column headerText="Defect Fixes">
+                            <p:commandButton icon="fa fa-warning" value="No Bug Id specified" disabled="true" rendered="#{log.defects == null}"/>
+                            <p:outputLabel value="#{log.defects}"/>
+                        </p:column>
+
                         <p:column style="width: 170px">
                             <a href="diffSource.do?gitRevision=#{log.revision}&amp;groupId=#{log.mavenCoordinates.groupId}&amp;artifactId=#{log.mavenCoordinates.artifactId}"
                                target="_blank">View Changes</a>
@@ -145,9 +153,11 @@
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="10,20,30,40,50,100,200">
                         <p:column headerText="Defect Id" style="width:110px;">
-                                <h:outputLink value="http://cdets.cisco.com/apps/dumpcr?content=summary&amp;format=html&amp;identifier=#{log}" title="#{log}" target="_blank">
-                                    <h:outputText value="#{log}" />
-                                </h:outputLink>
+                            <h:outputLink
+                                    value="http://cdets.cisco.com/apps/dumpcr?content=summary&amp;format=html&amp;identifier=#{log}"
+                                    title="#{log}" target="_blank">
+                                <h:outputText value="#{log}"/>
+                            </h:outputLink>
                         </p:column>
                     </p:dataTable>
                 </p:tab>

@@ -49,7 +49,7 @@ public class TeamController {
 
     private PieChartModel fileTypesPie;
     private LineChartModel trend;
-    private final Pattern defectIdPattern = Pattern.compile(System.getProperty("defectIdRegex").trim());
+    public static final Pattern defectIdPattern = Pattern.compile(System.getProperty("defectIdRegex").trim());
     private Team teamDetail;
     private MapModel simpleModel;
     private String latestRelease;
