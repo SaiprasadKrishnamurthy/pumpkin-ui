@@ -53,6 +53,7 @@ public class TeamController {
     private Team teamDetail;
     private MapModel simpleModel;
     private String latestRelease;
+    private boolean noData;
 
 
     public TeamController() throws Exception {
@@ -90,8 +91,8 @@ public class TeamController {
         } else {
             detailedCommits = pumpkinService.teamActivity(from, to, teamName);
         }
-        renderModified = true;
         if (!detailedCommits.isEmpty()) {
+            renderModified = true;
             files = detailedCommits.stream().flatMap(gl -> gl.getChanges().stream()).map(cs -> cs.getFilePath()).collect(toSet());
             artifacts = detailedCommits.stream().map(gl -> gl.getMavenCoordinates()).collect(Collectors.toSet());
             defects = new TreeSet<>();
@@ -129,6 +130,8 @@ public class TeamController {
                 LatLng coord1 = new LatLng(tm.getLocationLat(), tm.getLocationLong());
                 simpleModel.addOverlay(new Marker(coord1, teamName));
             });
+        } else {
+            noData = true;
         }
     }
 
