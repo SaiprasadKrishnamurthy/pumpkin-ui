@@ -159,7 +159,9 @@
                                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                  rowsPerPageTemplate="10,20,30,40,50">
                                         <p:column headerText="Defect ID">
-                                            <h:outputText value="#{f}"/>
+                                            <h:outputLink value="http://cdets.cisco.com/apps/dumpcr?content=summary&amp;format=html&amp;identifier=#{log}" title="#{f}" target="_blank">
+                                                <h:outputText value="#{f}"/>
+                                            </h:outputLink>
                                         </p:column>
                                     </p:dataTable>
                                 </p:tab>
