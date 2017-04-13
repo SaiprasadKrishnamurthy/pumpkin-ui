@@ -52,10 +52,15 @@ public class TeamController {
     private final Pattern defectIdPattern = Pattern.compile(System.getProperty("defectIdRegex").trim());
     private Team teamDetail;
     private MapModel simpleModel;
+    private String latestRelease;
 
 
     public TeamController() throws Exception {
         releaseArtifacts = pumpkinService.allReleases().stream().filter(r -> r.getSnapshot() == null || !r.getSnapshot()).collect(Collectors.toList());
+        if (!releaseArtifacts.isEmpty()) {
+            ReleaseArtifact last = releaseArtifacts.get(releaseArtifacts.size() - 1);
+            latestRelease = last.getName() + ":" + last.getVersion();
+        }
         teams = pumpkinService.allTeams();
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         from = request.getParameter("from");
@@ -80,7 +85,11 @@ public class TeamController {
             }
         };
 
-        detailedCommits = pumpkinService.teamActivity(from, to, teamName);
+        if (to.equalsIgnoreCase("NOW")) {
+            detailedCommits = pumpkinService.teamLatestActivity(teamName);
+        } else {
+            detailedCommits = pumpkinService.teamActivity(from, to, teamName);
+        }
         renderModified = true;
         files = detailedCommits.stream().flatMap(gl -> gl.getChanges().stream()).map(cs -> cs.getFilePath()).collect(toSet());
         artifacts = detailedCommits.stream().map(gl -> gl.getMavenCoordinates()).collect(Collectors.toSet());
@@ -138,6 +147,7 @@ public class TeamController {
             String formatted = null;
             try {
                 formatted = in.format(out.parse(gl.getDateTime().trim()));
+                System.out.println(gl.getRevision() + " ---> " + gl.getDateTime().trim() + " --> " + formatted);
             } catch (ParseException e) {
                 e.printStackTrace();
             }

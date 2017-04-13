@@ -197,4 +197,11 @@ public class PumpkinService {
         Map<String, Integer> response = restTemplate.getForObject(String.format(url, hours_ago), Map.class);
         return response;
     }
+
+    public List<GitLogEntry> teamLatestActivity(String teamName) {
+        String url = "http://10.126.219.143:9990/team-latest-stats?teamName=%s";
+        System.out.println(String.format(url, teamName.trim()));
+        List response = restTemplate.getForObject(String.format(url, teamName.trim()), List.class);
+        return (List<GitLogEntry>) response.stream().map(r -> MAPPER.convertValue(r, GitLogEntry.class)).collect(toList());
+    }
 }

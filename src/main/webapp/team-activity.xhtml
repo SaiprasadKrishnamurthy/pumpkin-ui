@@ -11,50 +11,57 @@
 
         <h:form id="form">
             <h2>Team Activity</h2>
-            <h:panelGrid columns="10" cellpadding="5" cellspacing="10">
-                <h:outputText value="Team Name: "/>
-                <p:selectOneMenu id="teamName" value="#{team.teamName}"
-                                 panelStyle="width:80px"
-                                 effect="fade" var="c" filter="true" filterMatchMode="contains">
-                    <f:selectItems value="#{team.teams}" var="c"
-                                   itemLabel="#{c.name}"
-                                   itemValue="#{c.name}"/>
+            <p:separator/>
+            <p:panel header="Team activity search" toggleable="true">
+                <h:panelGrid columns="10" cellpadding="5" cellspacing="10">
+                    <h:outputText value="Team Name: "/>
+                    <p:selectOneMenu id="teamName" value="#{team.teamName}"
+                                     panelStyle="width:80px"
+                                     effect="fade" var="c" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{team.teams}" var="c"
+                                       itemLabel="#{c.name}"
+                                       itemValue="#{c.name}"/>
 
-                </p:selectOneMenu>
-                <h:outputText value="From: "/>
-                <p:selectOneMenu id="from" value="#{team.from}"
-                                 panelStyle="width:80px"
-                                 effect="fade" var="c" filter="true" filterMatchMode="contains">
-                    <f:selectItems value="#{team.releaseArtifacts}" var="c"
-                                   itemLabel="#{c.name}(#{c.version})"
-                                   itemValue="#{c.name}:#{c.version}"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="From: "/>
+                    <p:selectOneMenu id="from" value="#{team.from}"
+                                     panelStyle="width:80px"
+                                     effect="fade" var="c" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{team.releaseArtifacts}" var="c"
+                                       itemLabel="#{c.name}(#{c.version})"
+                                       itemValue="#{c.name}:#{c.version}"/>
 
-                </p:selectOneMenu>
-                <h:outputText value="To: "/>
-                <p:selectOneMenu id="to" value="#{team.to}"
-                                 panelStyle="width:80px"
-                                 effect="fade" var="t" filter="true" filterMatchMode="contains">
-                    <f:selectItems value="#{team.releaseArtifacts}" var="c"
-                                   itemLabel="#{c.name}(#{c.version})"
-                                   itemValue="#{c.name}:#{c.version}"/>
 
-                </p:selectOneMenu>
-                <p:commandButton actionListener="#{team.search}" value="Search"
-                                 update=":#{p:component('form')}"
-                                 icon="fa fa-search" title="Search"
-                                 ajax="true"/>
-                <p:commandLink id="arts" icon="fa fa-question-circle" value="Do you want to register your team?"
-                               style="font-size:4px;"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="To: "/>
+                    <p:selectOneMenu id="to" value="#{team.to}"
+                                     panelStyle="width:80px"
+                                     effect="fade" var="t" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{team.releaseArtifacts}" var="c"
+                                       itemLabel="#{c.name}(#{c.version})"
+                                       itemValue="#{c.name}:#{c.version}"/>
+                        <f:selectItem
+                                itemLabel="NOW"
+                                itemValue="now"/>
 
-                <p:overlayPanel for="arts" hideEffect="fade" dynamic="true" style="width:600px">
-                    <p>Talk to one of us and get your team registered:</p>
-                    <ul>
-                        <li>Sai - saiprkri</li>
-                        <li>Prabu - prabvara</li>
-                        <li>Sriram - sranandr</li>
-                    </ul>
-                </p:overlayPanel>
-            </h:panelGrid>
+                    </p:selectOneMenu>
+                    <p:commandButton actionListener="#{team.search}" value="Search"
+                                     update=":#{p:component('form')}"
+                                     icon="fa fa-search" title="Search"
+                                     ajax="true"/>
+                    <p:commandLink id="arts" icon="fa fa-question-circle" value="Do you want to register your team?"
+                                   style="font-size:4px;"/>
+
+                    <p:overlayPanel for="arts" hideEffect="fade" dynamic="true" style="width:600px">
+                        <p>Talk to one of us and get your team registered:</p>
+                        <ul>
+                            <li>Sai - saiprkri</li>
+                            <li>Prabu - prabvara</li>
+                            <li>Sriram - sranandr</li>
+                        </ul>
+                    </p:overlayPanel>
+                </h:panelGrid>
+            </p:panel>
             <p:separator/>
             <p:spacer height="40"/>
             <p:tabView rendered="#{team.renderModified}">
@@ -161,7 +168,7 @@
                     <p:separator></p:separator>
                     <p:spacer height="10"></p:spacer>
                     <p:panel header="Team Location">
-                        <p:gmap center="12.932753,77.696174" zoom="6" type="HYBRID" style="width:100%;height:400px"
+                        <p:gmap center="12.932753,77.696174" zoom="2" type="HYBRID" style="width:100%;height:400px"
                                 model="#{team.simpleModel}"/>
                     </p:panel>
                 </p:tab>
