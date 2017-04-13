@@ -28,7 +28,7 @@
 
                 <p:dataTable var="log" value="#{team.teams}" paginator="false" resizableColumns="true">
                     <p:column headerText="Team">
-                        <h:outputText value="#{log.name}"/>
+                        <a href="team-activity.do?from=#{team.latestRelease}&amp;to=now&amp;teamName=#{log.name}">#{log.name}</a>
                     </p:column>
                     <p:column headerText="Lead">
                         <h:outputText value="#{log.lead.fullName}"/>
