@@ -68,7 +68,7 @@
             <p:separator/>
             <p:spacer height="40"/>
             <h:outputText value="No Activities Found" style="font-size: 12px" rendered="#{team.noData}" />
-            <p:tabView rendered="#{team.renderModified}">
+            <p:tabView rendered="#{team.renderModified and !team.noData}">
                 <p:tab title="Commit trends">
                     <p:chart type="line" model="#{team.trend}" style="height:550px;"/>
                 </p:tab>
